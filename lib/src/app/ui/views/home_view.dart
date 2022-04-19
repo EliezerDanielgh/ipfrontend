@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ye2/src/app/ui/shared/widgets/centered_view.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);

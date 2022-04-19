@@ -1,6 +1,6 @@
 {
-    "name": "ye2",
-    "short_name": "ye2",
+    "name": "ipfrontend",
+    "short_name": "ipfrontend",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ye2/src/app/components/nav_drawer/drawer_item.dart';
+import 'package:ipfrontend/src/app/components/nav_drawer/drawer_item.dart';
 
 class DrawerItem extends StatefulWidget {
   final String title;

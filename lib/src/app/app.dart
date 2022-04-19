@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ye2/src/app/services/notification_service.dart';
-import 'package:ye2/src/app/router/router.dart';
+import 'package:ipfrontend/src/app/services/notification_service.dart';
+import 'package:ipfrontend/src/app/router/router.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

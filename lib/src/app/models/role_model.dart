@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:ye2/src/app/models/workflow_model.dart';
+import 'package:ipfrontend/src/app/models/workflow_model.dart';
 
 class Role {
   Role({

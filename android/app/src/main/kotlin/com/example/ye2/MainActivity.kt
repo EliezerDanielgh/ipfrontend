@@ -1,4 +1,4 @@
-package com.example.ye2
+package com.example.ipfrontend
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ye2/src/app/components/my_progress_indicator.dart';
+import 'package:ipfrontend/src/app/components/my_progress_indicator.dart';
 
 class SplashLayout extends StatelessWidget {
   const SplashLayout({Key? key}) : super(key: key);

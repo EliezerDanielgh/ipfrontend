@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:ye2/src/app/ui/buttons/custom_button_secundary.dart';
-
 class HeaderView extends StatelessWidget {
   HeaderView({
     Key? key,

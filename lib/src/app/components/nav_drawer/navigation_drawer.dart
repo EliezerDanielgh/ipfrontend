@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 // import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:ye2/src/app/components/nav_drawer/drawer_module.dart';
-import 'package:ye2/src/app/components/nav_drawer/drawer_item.dart';
-import 'package:ye2/src/app/models/user_model.dart';
-import 'package:ye2/src/app/providers/auth_provider.dart';
-import 'package:ye2/src/app/providers/nav_drawer_provider.dart';
-import 'package:ye2/src/app/router/route_names.dart';
-import 'package:ye2/src/app/services/navigation_service.dart';
+import 'package:ipfrontend/src/app/components/nav_drawer/drawer_module.dart';
+import 'package:ipfrontend/src/app/components/nav_drawer/drawer_item.dart';
+import 'package:ipfrontend/src/app/models/user_model.dart';
+import 'package:ipfrontend/src/app/providers/auth_provider.dart';
+import 'package:ipfrontend/src/app/providers/nav_drawer_provider.dart';
+import 'package:ipfrontend/src/app/router/route_names.dart';
+import 'package:ipfrontend/src/app/services/navigation_service.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ye2/src/app/models/role_model.dart';
+import 'package:ipfrontend/src/app/models/role_model.dart';
 
 // To parse this JSON data, do
 //

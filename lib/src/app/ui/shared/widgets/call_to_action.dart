@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'package:ye2/src/app/components/call_to_action/call_to_action_mobile.dart';
-import 'package:ye2/src/app/components/call_to_action/call_to_action_tablet_desktop.dart';
+import 'package:ipfrontend/src/app/components/call_to_action/call_to_action_mobile.dart';
+import 'package:ipfrontend/src/app/components/call_to_action/call_to_action_tablet_desktop.dart';
 
 class CallToAction extends StatelessWidget {
   final String title;

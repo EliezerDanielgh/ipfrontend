@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:ye2/src/app/models/user_model.dart';
+import 'package:ipfrontend/src/app/models/user_model.dart';
 
 class Auth {
   String token;

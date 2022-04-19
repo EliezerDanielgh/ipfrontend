@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "ye2" "\0"
+            VALUE "FileDescription", "ipfrontend" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "ye2" "\0"
+            VALUE "InternalName", "ipfrontend" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "ye2.exe" "\0"
-            VALUE "ProductName", "ye2" "\0"
+            VALUE "OriginalFilename", "ipfrontend.exe" "\0"
+            VALUE "ProductName", "ipfrontend" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

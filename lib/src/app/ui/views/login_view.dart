@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:ye2/src/app/providers/auth_provider.dart';
-import 'package:ye2/src/app/providers/login_form_provider.dart';
-import 'package:ye2/src/app/ui/buttons/custom_button_primary.dart';
-import 'package:ye2/src/app/ui/inputs/custom_inputs.dart';
+import 'package:ipfrontend/src/app/providers/auth_provider.dart';
+import 'package:ipfrontend/src/app/providers/login_form_provider.dart';
+import 'package:ipfrontend/src/app/ui/buttons/custom_button_primary.dart';
+import 'package:ipfrontend/src/app/ui/inputs/custom_inputs.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);

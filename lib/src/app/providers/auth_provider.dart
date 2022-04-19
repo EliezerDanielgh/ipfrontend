@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:ye2/src/app/models/auth_model.dart';
-import 'package:ye2/src/app/models/user_model.dart';
-import 'package:ye2/src/app/services/notification_service.dart';
-import 'package:ye2/src/app/utils/api.dart';
-import 'package:ye2/src/app/utils/preferences.dart';
+import 'package:ipfrontend/src/app/models/auth_model.dart';
+import 'package:ipfrontend/src/app/models/user_model.dart';
+import 'package:ipfrontend/src/app/services/notification_service.dart';
+import 'package:ipfrontend/src/app/utils/api.dart';
+import 'package:ipfrontend/src/app/utils/preferences.dart';
 
 enum Status {
   notLoggedIn,

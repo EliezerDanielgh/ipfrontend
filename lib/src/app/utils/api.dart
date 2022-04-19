@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 
-import 'package:ye2/src/app/utils/preferences.dart';
+import 'package:ipfrontend/src/app/utils/preferences.dart';
 
 class API {
   // Development

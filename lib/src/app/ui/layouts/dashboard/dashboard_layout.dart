@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:ye2/src/app/components/nav_drawer/navigation_drawer.dart';
-import 'package:ye2/src/app/providers/nav_drawer_provider.dart';
-import 'package:ye2/src/app/services/navigation_service.dart';
-import 'package:ye2/src/app/ui/shared/widgets/navbar_avatar.dart';
-import 'package:ye2/src/app/ui/shared/widgets/notification_indicator.dart';
+import 'package:ipfrontend/src/app/components/nav_drawer/navigation_drawer.dart';
+import 'package:ipfrontend/src/app/providers/nav_drawer_provider.dart';
+import 'package:ipfrontend/src/app/ui/shared/widgets/navbar_avatar.dart';
+import 'package:ipfrontend/src/app/ui/shared/widgets/notification_indicator.dart';
 
 class DashBoardLayout extends StatefulWidget {
   const DashBoardLayout({Key? key, required this.child}) : super(key: key);

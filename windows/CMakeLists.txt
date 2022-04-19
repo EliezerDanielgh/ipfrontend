@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(ye2 LANGUAGES CXX)
+project(ipfrontend LANGUAGES CXX)
 
-set(BINARY_NAME "ye2")
+set(BINARY_NAME "ipfrontend")
 
 cmake_policy(SET CMP0063 NEW)
 
