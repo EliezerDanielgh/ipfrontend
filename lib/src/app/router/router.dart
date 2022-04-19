@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ipfrontend/src/app/ui/views/ventas_view.dart';
 import 'package:provider/provider.dart';
 // import 'package:ipfrontend/src/app/models/banner_model.dart';
 // import 'package:ipfrontend/src/app/models/branch_office_model.dart';
@@ -50,6 +51,14 @@ class RouterGoRouter {
       // debugLogDiagnostics: true,
       // initialLocation: '/banners',
       routes: [
+        GoRoute(
+          name: ventasRoute,
+          path: '/$ventasRoute',
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const VentasView(),
+          ),
+        ),
         GoRoute(
           name: rootRoute,
           path: rootRoute,

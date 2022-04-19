@@ -26,19 +26,8 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
                 drawer: const NavigationDrawer(),
                 appBar: AppBar(
                   title: Row(
-                    children: [
-                      /*                
-                      if (NavDrawerProvider.activeBackButton == true) ...[
-                        BackButton(
-                          onPressed: () {
-                            NavigationService.back(null);
-                          },
-                        ), 
-                        const SizedBox(width: 25),
-                        
-                      ],
-                      */
-                      const Text("RCV 871"),
+                    children: const [
+                      Text("Pedidos"),
                     ],
                   ),
                   elevation: 0,

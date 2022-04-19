@@ -8,6 +8,9 @@ const registerRoute = 'register';
 // Dashboard
 const dashBoardRoute = 'dashboard';
 
+//Ventas
+const ventasRoute = 'ventas';
+
 //Banners
 const bannersRoute = 'banners';
 const bannerRoute = 'banner';

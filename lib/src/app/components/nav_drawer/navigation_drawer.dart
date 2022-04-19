@@ -32,113 +32,19 @@ class NavigationDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 15),
           DrawerItem(
-            title: 'Administración de Sistema',
+            title: 'Administración de Ventas',
             icon: Icons.system_update_outlined,
             navigationPath: dashBoardRoute,
             children: [
               NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == usersRoute,
-                title: "Usuarios",
-                navigationPath: bannersRoute,
-                icon: Icons.supervised_user_circle_rounded,
+                isActive: navDrawerProvider.routeCurrent == ventasRoute,
+                title: "Ventas",
+                navigationPath: ventasRoute,
+                icon: Icons.sell_outlined,
                 onPressed: () {
-                  navDrawerProvider.setActiveBackButton(true);
-                  navigateTo(context, usersRoute);
+                  navDrawerProvider.setRouteCurrent(ventasRoute);
+                  navigateTo(context, ventasRoute);
                 },
-              ),
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == rolesRoute,
-                title: "Roles",
-                navigationPath: rolesRoute,
-                icon: Icons.accessibility_rounded,
-                onPressed: () => navigateTo(context, rolesRoute),
-              ),
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == branchOfficesRoute,
-                title: "Sucursales",
-                navigationPath: branchOfficesRoute,
-                icon: Icons.location_city_outlined,
-                onPressed: () => navigateTo(context, branchOfficesRoute),
-              ),
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == usesRoute,
-                title: "Usos",
-                navigationPath: usesRoute,
-                icon: Icons.verified_outlined,
-                onPressed: () => navigateTo(context, usesRoute),
-              ),
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == plansRoute,
-                title: "Planes",
-                navigationPath: plansRoute,
-                icon: Icons.local_offer_outlined,
-                onPressed: () => navigateTo(context, plansRoute),
-              ),
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == coveragesRoute,
-                title: "Coberturas",
-                navigationPath: coveragesRoute,
-                icon: Icons.local_convenience_store_sharp,
-                onPressed: () => navigateTo(context, coveragesRoute),
-              ),
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == premiumsRoute,
-                title: "Gestión de Primas",
-                navigationPath: premiumsRoute,
-                icon: Icons.price_change_outlined,
-                onPressed: () => navigateTo(context, premiumsRoute),
-              ),
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == clientsRoute,
-                title: "Gestión de Clientes",
-                navigationPath: clientsRoute,
-                icon: Icons.supervised_user_circle_outlined,
-                onPressed: () {
-                  navDrawerProvider.setActiveBackButton(true);
-                  navigateTo(context, clientsRoute);
-                },
-              ),
-            ],
-          ),
-          DrawerItem(
-            title: 'Administración Web',
-            icon: Icons.web_outlined,
-            navigationPath: dashBoardRoute,
-            children: [
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == bannersRoute,
-                title: "Banners",
-                navigationPath: bannersRoute,
-                icon: Icons.nature,
-                onPressed: () => navigateTo(context, bannersRoute),
-              ),
-            ],
-          ),
-          DrawerItem(
-            title: 'Administración de Vehículos',
-            icon: Icons.car_rental_outlined,
-            navigationPath: vehiclesRoute,
-            children: [
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == marksRoute,
-                title: "Marcas",
-                navigationPath: marksRoute,
-                icon: Icons.image_outlined,
-                onPressed: () => navigateTo(context, marksRoute),
-              ),
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == modelsRoute,
-                title: "Modelos",
-                navigationPath: modelsRoute,
-                icon: Icons.model_training_outlined,
-                onPressed: () => navigateTo(context, modelsRoute),
-              ),
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == vehiclesRoute,
-                title: "Vehiculos",
-                navigationPath: vehiclesRoute,
-                icon: Icons.car_repair_outlined,
-                onPressed: () => navigateTo(context, vehiclesRoute),
               ),
             ],
           ),
