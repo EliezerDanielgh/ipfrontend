@@ -38,6 +38,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "convex_bottom_bar",
+      "rootUri": "file:///C:/Users/YONATHAN/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/convex_bottom_bar-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///C:/Users/YONATHAN/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/cupertino_icons-1.0.4",
       "packageUri": "lib/",
@@ -172,6 +178,12 @@
     {
       "name": "meta",
       "rootUri": "file:///C:/Users/YONATHAN/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/meta-1.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "modal_bottom_sheet",
+      "rootUri": "file:///C:/Users/YONATHAN/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/modal_bottom_sheet-2.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -368,7 +380,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-04-19T17:35:08.674339Z",
+  "generated": "2022-04-19T18:19:22.993971Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }
