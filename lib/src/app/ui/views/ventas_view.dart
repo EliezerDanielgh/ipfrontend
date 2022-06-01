@@ -1,6 +1,10 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:ipfrontend/src/app/components/my_progress_indicator.dart';
+import 'package:ipfrontend/src/app/providers/order_provider.dart';
+import 'package:ipfrontend/src/app/services/client_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 
 class VentasView extends StatefulWidget {
   const VentasView({Key? key}) : super(key: key);
@@ -10,18 +14,28 @@ class VentasView extends StatefulWidget {
 }
 
 class _VentasViewState extends State<VentasView> {
-  final List<Map<String, dynamic>> _allUsers = [
-    {"id": 1, "name": "Andy", "age": 29},
-    {"id": 2, "name": "Aragon", "age": 40},
-    {"id": 3, "name": "Bob", "age": 5},
-    {"id": 4, "name": "Barbara", "age": 35},
-    {"id": 5, "name": "Candy", "age": 21},
-    {"id": 6, "name": "Colin", "age": 55},
-    {"id": 7, "name": "Audra", "age": 30},
-    {"id": 8, "name": "Banana", "age": 14},
-    {"id": 9, "name": "Caversky", "age": 100},
-    {"id": 10, "name": "Becky", "age": 32},
-  ];
+  List<Map<String, dynamic>> _allUsers = [];
+
+  @override
+  initState() {
+    final orderProvider = Provider.of<OrderProvider>(context, listen: false);
+    orderProvider.searchClients({});
+    super.initState();
+    // _foundUsers = _allUsers;
+  }
+
+  // final List<Map<String, dynamic>> _allUsers = [
+  //   {"id": 1, "name": "Andy", "age": 29},
+  //   {"id": 2, "name": "Aragon", "age": 40},
+  //   {"id": 3, "name": "Bob", "age": 5},
+  //   {"id": 4, "name": "Barbara", "age": 35},
+  //   {"id": 5, "name": "Candy", "age": 21},
+  //   {"id": 6, "name": "Colin", "age": 55},
+  //   {"id": 7, "name": "Audra", "age": 30},
+  //   {"id": 8, "name": "Banana", "age": 14},
+  //   {"id": 9, "name": "Caversky", "age": 100},
+  //   {"id": 10, "name": "Becky", "age": 32},
+  // ];
 
   List<Map<String, dynamic>> _foundUsers = [];
 
@@ -42,13 +56,6 @@ class _VentasViewState extends State<VentasView> {
       _foundUsers = results;
     });
     // Refresh the UI
-  }
-
-  @override
-  void initState() {
-    _foundUsers = _allUsers;
-
-    super.initState();
   }
 
   Widget build(BuildContext context) {
@@ -101,84 +108,71 @@ class _VentasViewState extends State<VentasView> {
                 const SizedBox(
                   height: 8,
                 ),
-                Container(
-                  height: 250,
-                  child: _foundUsers.isNotEmpty
-                      ? ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.all(5),
-                          scrollDirection: Axis.vertical,
-                          itemCount: _foundUsers.length,
-                          itemBuilder: (context, index) => Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Color.fromARGB(179, 24, 226, 58),
-                                  width: 1),
-                              borderRadius: BorderRadius.circular(10),
+                Consumer<OrderProvider>(
+                    builder: (context, orderProvider, child) {
+                  if (orderProvider.searchingClients == false) {
+                    _foundUsers = orderProvider.clients;
+                    return Container(
+                      height: 250,
+                      child: _foundUsers.isNotEmpty
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.all(5),
+                              scrollDirection: Axis.vertical,
+                              itemCount: _foundUsers.length,
+                              itemBuilder: (context, index) {
+                                print('Iten $index');
+                                return Card(
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Color.fromARGB(179, 24, 226, 58),
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  key: ValueKey(_foundUsers[index]["code"]),
+                                  color:
+                                      const Color.fromARGB(255, 254, 253, 252),
+                                  child: ListTile(
+                                    onTap: () {
+                                      orderProvider.selectedClient(
+                                          _foundUsers[index]["code"]);
+                                    },
+                                    dense: true,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                      vertical: 0,
+                                    ),
+                                    style: ListTileStyle.drawer,
+                                    leading: CircleAvatar(
+                                      radius: 15,
+                                      child: Text(
+                                        _foundUsers[index]["code"].toString(),
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    ),
+                                    title: Text(
+                                      _foundUsers[index]['business_name'],
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    subtitle: Text(
+                                      'test',
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : const Text(
+                              'No results found',
+                              style: TextStyle(fontSize: 24),
                             ),
-                            key: ValueKey(_foundUsers[index]["id"]),
-                            color: Color.fromARGB(255, 254, 253, 252),
-                            child: ListTile(
-                              onTap: () => showMaterialModalBottomSheet(
-                                expand: false,
-                                context: context,
-                                backgroundColor: Colors.amber,
-                                builder: (context) => Container(
-                                  child: SizedBox(
-                                      height: 350,
-                                      child: ListView.builder(
-                                          itemCount: _foundUsers.length,
-                                          itemBuilder: (context, index) => Card(
-                                              elevation: 3,
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    color: Color.fromARGB(
-                                                        179, 24, 226, 58),
-                                                    width: 1),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              key: ValueKey(
-                                                  _foundUsers[index]["id"]),
-                                              color: Color.fromARGB(
-                                                  255, 254, 253, 252),
-                                              child: ListTile(
-                                                title: Text(
-                                                  _foundUsers[index]['name'],
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                ),
-                                              )))),
-                                ),
-                              ),
-                              dense: true,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 0),
-                              style: ListTileStyle.drawer,
-                              leading: CircleAvatar(
-                                radius: 15,
-                                child: Text(
-                                  _foundUsers[index]["id"].toString(),
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ),
-                              title: Text(
-                                _foundUsers[index]['name'],
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              subtitle: Text(
-                                '${_foundUsers[index]["age"].toString()} years old',
-                                style: TextStyle(fontSize: 10),
-                              ),
-                            ),
-                          ),
-                        )
-                      : const Text(
-                          'No results found',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                )
+                    );
+                  } else {
+                    return const MyProgressIndicator();
+                  }
+                })
               ],
             ),
           ),
@@ -248,6 +242,7 @@ class FilterTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final orderProvider = Provider.of<OrderProvider>(context, listen: false);
     return Expanded(
       child: Container(
         color: Colors.transparent,
@@ -284,18 +279,34 @@ class FilterTab extends StatelessWidget {
                                   BorderRadius.all(Radius.circular(5)),
                               color: Theme.of(context).primaryColor,
                             ),
-                            tabs: const [
-                              Tab(
-                                child: Text(
-                                  "Diatrio",
-                                  style: TextStyle(),
+                            tabs: [
+                              GestureDetector(
+                                onTap: () async {
+                                  orderProvider.searchClients({});
+                                },
+                                child: Tab(
+                                  child: Text("Diario"),
                                 ),
                               ),
                               Tab(
-                                child: Text(
-                                  "Semanal",
-                                  style: TextStyle(),
-                                ),
+                                child: Consumer<OrderProvider>(
+                                    builder: (context, obj, child) {
+                                  return TextButton(
+                                    onPressed: () async {
+                                      if (obj.codeClientSelected != null) {
+                                        await orderProvider.updateClient(
+                                            obj.codeClientSelected!, {
+                                          "business_name": 'Cliente Actkla'
+                                        });
+                                      }
+                                      orderProvider.searchClients({});
+                                    },
+                                    child: Text(
+                                      "Semanal",
+                                      style: TextStyle(),
+                                    ),
+                                  );
+                                }),
                               ),
                               Tab(
                                 child: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ipfrontend/src/app/providers/order_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:ipfrontend/src/app/providers/auth_provider.dart';
@@ -40,7 +41,8 @@ class _AppStateState extends State<AppState> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(lazy: false, create: (_) => AuthProvider())
+        ChangeNotifierProvider(lazy: false, create: (_) => AuthProvider()),
+        ChangeNotifierProvider(lazy: false, create: (_) => OrderProvider())
       ],
       child: const MyApp(),
     );

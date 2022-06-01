@@ -30,6 +30,11 @@ class AuthProvider with ChangeNotifier {
     isAuthenticated();
   }
 
+  setName(String newName) {
+    user!.name = newName;
+    notifyListeners();
+  }
+
   Future<bool> isAuthenticated() async {
     final token = Preferences.getToken();
     if (token == null) {
@@ -38,7 +43,7 @@ class AuthProvider with ChangeNotifier {
       return false;
     }
     try {
-      final resp = await API.list('/security/user/current/');
+      final resp = await API.get('/security/user/current/');
       if (resp.statusCode == 200) {
         user = User.fromMap(resp.data);
         _loggedInStatus = Status.loggedIn;
@@ -56,13 +61,19 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> login(
       BuildContext context, String username, String password) async {
-    final Map<String, String> loginData = {
-      'username': username,
-      'password': password
-    };
-
     _loggedInStatus = Status.authenticating;
     notifyListeners();
+
+    //username =  admin@dev
+    final data = username.split('@');
+    // data = ['admin', 'dev']
+    Preferences.setSchema(data[1]);
+    API.configureDio();
+
+    final Map<String, String> loginData = {
+      'username': data[0],
+      'password': password
+    };
 
     try {
       Response resp = await API.add('/token/', loginData);

@@ -10,18 +10,26 @@ class Preferences {
     return prefs;
   }
 
-  static Future<void> setToken(String token, String? refresh) async {
-    prefs.setString("token", token);
-    prefs.setString("refresh", refresh ?? "");
-  }
-
   static void removetoken() async {
     prefs.remove("token");
     prefs.remove("refresh");
   }
 
+  static Future<void> setToken(String token, String? refresh) async {
+    prefs.setString("token", token);
+    prefs.setString("refresh", refresh ?? "");
+  }
+
   static String? getToken() {
     return prefs.getString("token");
+  }
+
+  static Future<void> setSchema(String schema) async {
+    prefs.setString("schema", schema);
+  }
+
+  static String? getSchema() {
+    return prefs.getString("schema");
   }
 
   static String? getRefreshToken() {
