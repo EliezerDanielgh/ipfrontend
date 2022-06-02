@@ -50,6 +50,7 @@ class _DayPickerState extends State<DayPicker> {
           fechaSelecionada.day + 1);
       initializeDateFormatting();
       realselecteddatestring = formatterFechaCompleta.format(fechaSelecionada);
+      print('Fecha calendario $diaM');
     });
   }
 
@@ -166,7 +167,10 @@ class _DayPickerState extends State<DayPicker> {
                           initializeDateFormatting();
                           realselecteddatestring =
                               formatterFechaCompleta.format(fechaSelecionada);
-                          setState(() {});
+                          setState(() {
+                            // print('Fecha $diaM');
+                          });
+                          print('Fecha $diaM');
                         },
                         icon: const Icon(Icons.chevron_right_outlined),
                         color: Theme.of(context).primaryColorDark,

@@ -20,9 +20,9 @@ class _VentasViewState extends State<VentasView> {
 
   @override
   initState() {
+    super.initState();
     final orderProvider = Provider.of<OrderProvider>(context, listen: false);
     orderProvider.searchClients({});
-    super.initState();
     // _foundUsers = _allUsers;
   }
 
@@ -237,13 +237,42 @@ class CardDash extends StatelessWidget {
   }
 }
 
-class FilterTab extends StatelessWidget {
+class FilterTab extends StatefulWidget {
   const FilterTab({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<FilterTab> createState() => _FilterTabState();
+}
+
+class _FilterTabState extends State<FilterTab>
+    with SingleTickerProviderStateMixin {
+  late TabController controllerTab;
+  @override
+  initState() {
+    super.initState();
+    controllerTab = TabController(length: 4, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    controllerTab.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    controllerTab.addListener(() {
+      if (!controllerTab.indexIsChanging) {
+        print('controller ${controllerTab.index}');
+        final orderProvider =
+            Provider.of<OrderProvider>(context, listen: false);
+        orderProvider.searchClients({});
+        // Your code goes here.
+        // To get index of current tab use tabController.index
+      }
+    });
     initializeDateFormatting();
     return Container(
       // color: Color.fromARGB(0, 255, 49, 49),
@@ -269,6 +298,7 @@ class FilterTab extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           color: Color.fromARGB(255, 255, 255, 255)),
                       child: TabBar(
+                          controller: controllerTab,
                           indicatorWeight: 0,
                           labelPadding: EdgeInsets.all(0.0),
                           padding: EdgeInsets.all(5.0),
@@ -309,12 +339,15 @@ class FilterTab extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 5),
                       width: double.infinity,
                       height: 35,
-                      child: const TabBarView(children: [
-                        datepickers.DayPicker(),
-                        datepickers.WeekPicker(),
-                        datepickers.MesPicker(),
-                        datepickers.YearPicker()
-                      ]),
+                      child: TabBarView(
+                        children: [
+                          datepickers.DayPicker(),
+                          datepickers.WeekPicker(),
+                          datepickers.MesPicker(),
+                          datepickers.YearPicker()
+                        ],
+                        controller: controllerTab,
+                      ),
                     )
                   ],
                 ),
