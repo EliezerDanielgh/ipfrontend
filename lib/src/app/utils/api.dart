@@ -13,7 +13,7 @@ class API {
     _dio.options.baseUrl = baseURL;
     _dio.options.headers = {
       'Authorization': 'Bearer ${Preferences.getToken()}',
-      "X-Dts-Schame": '${Preferences.getSchame()}',
+      'X-Dts-Schema': '${Preferences.getSchema()}',
       'accept': '*/*',
     };
     initializedInterceptors();
