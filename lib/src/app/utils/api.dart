@@ -10,13 +10,14 @@ class API {
   // static const String baseURL = "http://127.0.0.1:8000/api";
 
   // Production
-  static const String baseURL = "http://194.163.161.64:6500/api";
+  static const String baseURL = "http://dev.ipedidos.web.ve/api";
   static final Dio _dio = Dio();
 
   static void configureDio() {
     _dio.options.baseUrl = baseURL;
     _dio.options.headers = {
       'Authorization': 'Bearer ${Preferences.getToken()}',
+      "X-Dts-Schame": '${Preferences.getSchame()}',
       'accept': '*/*',
     };
     initializedInterceptors();
