@@ -10,11 +10,6 @@ class Preferences {
     return prefs;
   }
 
-  static Future<void> setToken(String token, String? refresh) async {
-    prefs.setString("token", token);
-    prefs.setString("refresh", refresh ?? "");
-  }
-
   static Future<void> setScahme(String schame) async {
     prefs.setString("schame", schame);
   }

@@ -5,6 +5,7 @@ import 'package:ipfrontend/src/app/providers/order_provider.dart';
 import 'package:ipfrontend/src/app/services/client_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
 import '../inputs/date_pickers.dart' as datepickers;
 
 class VentasView extends StatefulWidget {
