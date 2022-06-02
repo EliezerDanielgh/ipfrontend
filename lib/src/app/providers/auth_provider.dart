@@ -64,7 +64,7 @@ class AuthProvider with ChangeNotifier {
     _loggedInStatus = Status.authenticating;
     notifyListeners();
     var data = username.split("@");
-    Preferences.setScahme(data[1]);
+    Preferences.setSchema(data[1]);
     API.configureDio();
     final Map<String, String> loginData = {
       'username': data[0],

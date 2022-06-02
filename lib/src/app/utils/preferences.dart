@@ -10,14 +10,6 @@ class Preferences {
     return prefs;
   }
 
-  static Future<void> setScahme(String schame) async {
-    prefs.setString("schame", schame);
-  }
-
-  static String? getSchame() {
-    return prefs.getString("schame");
-  }
-
   static void removetoken() async {
     prefs.remove("token");
     prefs.remove("refresh");
