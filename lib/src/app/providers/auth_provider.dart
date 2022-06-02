@@ -61,6 +61,14 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> login(
       BuildContext context, String username, String password) async {
+    var data = username.split("@");
+    Preferences.setScahme(data[1]);
+    API.configureDio();
+    final Map<String, String> loginData = {
+      'username': data[0],
+      'password': password
+    };
+
     _loggedInStatus = Status.authenticating;
     notifyListeners();
 

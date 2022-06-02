@@ -4,7 +4,8 @@ import 'package:ipfrontend/src/app/components/my_progress_indicator.dart';
 import 'package:ipfrontend/src/app/providers/order_provider.dart';
 import 'package:ipfrontend/src/app/services/client_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:provider/provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import '../inputs/date_pickers.dart' as datepickers;
 
 class VentasView extends StatefulWidget {
   const VentasView({Key? key}) : super(key: key);
@@ -242,94 +243,86 @@ class FilterTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final orderProvider = Provider.of<OrderProvider>(context, listen: false);
-    return Expanded(
-      child: Container(
-        color: Colors.transparent,
-        //margin: EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-        width: double.infinity,
-        //height: double.infinity,
-        child: Column(children: [
-          DefaultTabController(
-            length: 4,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(0, 29, 6, 238),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 5),
-                        height: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                        child: TabBar(
-                            indicatorWeight: 0,
-                            labelPadding: EdgeInsets.all(0.0),
-                            padding: EdgeInsets.all(5.0),
-                            labelColor: Color.fromARGB(255, 255, 255, 255),
-                            unselectedLabelColor:
-                                Color.fromARGB(255, 90, 90, 90),
-                            indicator: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            tabs: [
-                              GestureDetector(
-                                onTap: () async {
-                                  orderProvider.searchClients({});
-                                },
-                                child: Tab(
-                                  child: Text("Diario"),
-                                ),
-                              ),
-                              Tab(
-                                child: Consumer<OrderProvider>(
-                                    builder: (context, obj, child) {
-                                  return TextButton(
-                                    onPressed: () async {
-                                      if (obj.codeClientSelected != null) {
-                                        await orderProvider.updateClient(
-                                            obj.codeClientSelected!, {
-                                          "business_name": 'Cliente Actkla'
-                                        });
-                                      }
-                                      orderProvider.searchClients({});
-                                    },
-                                    child: Text(
-                                      "Semanal",
-                                      style: TextStyle(),
-                                    ),
-                                  );
-                                }),
-                              ),
-                              Tab(
-                                child: Text(
-                                  "Mensual",
-                                  style: TextStyle(),
-                                ),
-                              ),
-                              Tab(
-                                child: Text(
-                                  "Anual",
-                                  style: TextStyle(),
-                                ),
-                              ),
-                            ]),
-                      ),
-                    ],
-                  ),
+    initializeDateFormatting();
+    return Container(
+      // color: Color.fromARGB(0, 255, 49, 49),
+      //margin: EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+      width: double.infinity,
+      //height: double.infinity,
+      child: Column(children: [
+        DefaultTabController(
+          length: 4,
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color.fromARGB(0, 29, 6, 238),
                 ),
-              ],
-            ),
+                child: Column(
+                  children: [
+                    Container(
+                      // margin: EdgeInsets.only(bottom: 100),
+                      height: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color.fromARGB(255, 255, 255, 255)),
+                      child: TabBar(
+                          indicatorWeight: 0,
+                          labelPadding: EdgeInsets.all(0.0),
+                          padding: EdgeInsets.all(5.0),
+                          labelColor: Color.fromARGB(255, 255, 255, 255),
+                          unselectedLabelColor: Color.fromARGB(255, 90, 90, 90),
+                          indicator: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          tabs: const [
+                            Tab(
+                              child: Text(
+                                "Diario",
+                                style: TextStyle(),
+                              ),
+                            ),
+                            Tab(
+                              child: Text(
+                                "Semanal",
+                                style: TextStyle(),
+                              ),
+                            ),
+                            Tab(
+                              child: Text(
+                                "Mensual",
+                                style: TextStyle(),
+                              ),
+                            ),
+                            Tab(
+                              child: Text(
+                                "Anual",
+                                style: TextStyle(),
+                              ),
+                            ),
+                          ]),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      width: double.infinity,
+                      height: 35,
+                      child: const TabBarView(children: [
+                        datepickers.DayPicker(),
+                        datepickers.WeekPicker(),
+                        datepickers.MesPicker(),
+                        datepickers.YearPicker()
+                      ]),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
-        ]),
-      ),
+        ),
+        // datepickers.DayPicker()
+      ]),
     );
   }
 }

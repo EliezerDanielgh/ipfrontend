@@ -6,18 +6,14 @@ import 'package:dio/dio.dart';
 import 'package:ipfrontend/src/app/utils/preferences.dart';
 
 class API {
-  // Development
-  static const String baseURL = "http://127.0.0.1:8000/api";
-
-  // Production
-  // static const String baseURL = "http://dev.ipedidos.web.ve/api";
+  static const String baseURL = "http://dev.ipedidos.web.ve/api";
   static final Dio _dio = Dio();
 
   static void configureDio() {
     _dio.options.baseUrl = baseURL;
     _dio.options.headers = {
       'Authorization': 'Bearer ${Preferences.getToken()}',
-      'X-Dts-Schema': '${Preferences.getSchema()}',
+      "X-Dts-Schame": '${Preferences.getSchame()}',
       'accept': '*/*',
     };
     initializedInterceptors();
