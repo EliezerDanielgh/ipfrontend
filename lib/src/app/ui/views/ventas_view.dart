@@ -1,10 +1,13 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:ipfrontend/src/app/components/my_progress_indicator.dart';
-import 'package:ipfrontend/src/app/providers/order_controller.dart';
+import 'package:ipfrontend/src/app/providers/order_provider.dart';
+import 'package:ipfrontend/src/app/services/client_service.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
-// import '../inputs/date_pickers.dart' as datepickers;
+import '../inputs/date_pickers.dart' as datepickers;
 
 class VentasView extends StatefulWidget {
   const VentasView({Key? key}) : super(key: key);
@@ -18,9 +21,9 @@ class _VentasViewState extends State<VentasView> {
 
   @override
   initState() {
-    final orderProvider = Provider.of<OrderController>(context, listen: false);
-    // orderProvider.searchClients({});
     super.initState();
+    final orderProvider = Provider.of<OrderProvider>(context, listen: false);
+    orderProvider.searchClients({});
     // _foundUsers = _allUsers;
   }
 
@@ -101,98 +104,221 @@ class _VentasViewState extends State<VentasView> {
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         border: OutlineInputBorder(),
-                        labelText: 'Search',
+                        labelText: 'Buscar Cliente',
                         suffixIcon: Icon(Icons.search)),
                   ),
                 ),
                 const SizedBox(
                   height: 8,
                 ),
-                // Consumer<OrderProvider>(
-                //     builder: (context, orderProvider, child) {
-                //   if (orderProvider.searchingClients == false) {
-                //     _foundUsers = orderProvider.clients;
-                //     return Container(
-                //       height: 250,
-                //       child: _foundUsers.isNotEmpty
-                //           ? ListView.builder(
-                //               shrinkWrap: true,
-                //               padding: EdgeInsets.all(5),
-                //               scrollDirection: Axis.vertical,
-                //               itemCount: _foundUsers.length,
-                //               itemBuilder: (context, index) {
-                //                 print('Iten $index');
-                //                 return Card(
-                //                   elevation: 3,
-                //                   shape: RoundedRectangleBorder(
-                //                     side: const BorderSide(
-                //                       color: Color.fromARGB(179, 24, 226, 58),
-                //                       width: 1,
-                //                     ),
-                //                     borderRadius: BorderRadius.circular(10),
-                //                   ),
-                //                   key: ValueKey(_foundUsers[index]["code"]),
-                //                   color:
-                //                       const Color.fromARGB(255, 254, 253, 252),
-                //                   child: ListTile(
-                //                     onTap: () {
-                //                       orderProvider.selectedClient(
-                //                           _foundUsers[index]["code"]);
-                //                     },
-                //                     dense: true,
-                //                     contentPadding: const EdgeInsets.symmetric(
-                //                       horizontal: 5,
-                //                       vertical: 0,
-                //                     ),
-                //                     style: ListTileStyle.drawer,
-                //                     leading: CircleAvatar(
-                //                       radius: 15,
-                //                       child: Text(
-                //                         _foundUsers[index]["code"].toString(),
-                //                         style: const TextStyle(fontSize: 12),
-                //                       ),
-                //                     ),
-                //                     title: Text(
-                //                       _foundUsers[index]['business_name'],
-                //                       style: TextStyle(fontSize: 15),
-                //                     ),
-                //                     subtitle: Text(
-                //                       'test',
-                //                       style: TextStyle(fontSize: 10),
-                //                     ),
-                //                   ),
-                //                 );
-                //               },
-                //             )
-                //           : const Text(
-                //               'No results found',
-                //               style: TextStyle(fontSize: 24),
-                //             ),
-                //     );
-                //   } else {
-                //     return const MyProgressIndicator();
-                //   }
-                // })
+                Consumer<OrderProvider>(
+                    builder: (context, orderProvider, child) {
+                  if (orderProvider.searchingClients == false) {
+                    _foundUsers = orderProvider.clients;
+                    return Container(
+                      height: 250,
+                      child: _foundUsers.isNotEmpty
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.all(5),
+                              scrollDirection: Axis.vertical,
+                              itemCount: _foundUsers.length,
+                              itemBuilder: (context, index) {
+                                print(_foundUsers[index]["code"]);
+                                return Card(
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Color.fromARGB(179, 24, 226, 58),
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  key: ValueKey(_foundUsers[index]["code"]),
+                                  color:
+                                      const Color.fromARGB(255, 254, 253, 252),
+                                  child: ListTile(
+                                    onTap: () {
+                                      orderProvider.selectedClient(
+                                          _foundUsers[index]["code"]);
+                                      showMaterialModalBottomSheet(
+                                        expand: false,
+                                        context: context,
+                                        backgroundColor:
+                                            Color.fromARGB(61, 122, 239, 147),
+                                        builder: (context) =>
+                                            Consumer<OrderProvider>(builder:
+                                                (context, provider, child) {
+                                          return Container(
+                                            height: 450,
+                                            child: ListView.builder(
+                                              itemCount: provider.orders.length,
+                                              itemBuilder: (context, index) =>
+                                                  Card(
+                                                elevation: 3,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(30)),
+                                                ),
+                                                child: ListTile(
+                                                  dense: false,
+                                                  leading: FlutterLogo(),
+                                                  title: Text(
+                                                    "Flutter Easy Learning\nTutorial #31",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20),
+                                                  ),
+                                                  subtitle: Text(
+                                                    "Instructor: Mustafa Tahir",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                  trailing: Icon(
+                                                      Icons.arrow_forward_ios),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                      );
+                                    },
+                                    dense: true,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                      vertical: 0,
+                                    ),
+                                    style: ListTileStyle.drawer,
+                                    leading: CircleAvatar(
+                                      radius: 15,
+                                      child: Text(
+                                        _foundUsers[index]["number_orders"]
+                                            .toString(),
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    ),
+                                    title: Text(
+                                      _foundUsers[index]['business_name'],
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    subtitle: Text(
+                                      _foundUsers[index]['description'],
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : const Text(
+                              'No results found',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                    );
+                  } else {
+                    return const MyProgressIndicator();
+                  }
+                })
               ],
             ),
           ),
         ],
       ),
-      bottomNavigationBar: ConvexAppBar(
-        backgroundColor: Theme.of(context).primaryColorDark,
-        height: 45,
-        elevation: 6,
-        style: TabStyle.custom,
-        items: [
-          TabItem(icon: Icons.home, title: 'Home'),
-          TabItem(icon: Icons.book, title: 'Pedidos'),
-          TabItem(icon: Icons.copy, title: 'Cotizacion'),
-          TabItem(icon: Icons.paid, title: 'Cobranzas'),
-          // TabItem(icon: Icons.message, title: 'Message'),
-          // TabItem(icon: Icons.people, title: 'Profile'),
+      floatingActionButton: SpeedDial(
+        marginBottom: 10, //margin bottom
+        icon: Icons.menu, //icon on Floating action button
+        activeIcon: Icons.close, //icon when menu is expanded on button
+        backgroundColor: Colors.deepOrangeAccent, //background color of button
+        foregroundColor: Colors.white, //font color, icon color in button
+        activeBackgroundColor:
+            Colors.deepPurpleAccent, //background color when menu is expanded
+        activeForegroundColor: Colors.white,
+        buttonSize: 56.0, //button size
+        visible: true,
+        closeManually: false,
+        curve: Curves.bounceIn,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        onOpen: () => print('OPENING DIAL'), // action when menu opens
+        onClose: () => print('DIAL CLOSED'), //action when menu closes
+
+        elevation: 8.0, //shadow elevation of button
+        shape: CircleBorder(), //shape of button
+
+        children: [
+          /*          SpeedDialChild(
+            //speed dial child
+            child: Icon(Icons.accessibility),
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            label: 'First Menu Child',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () => print('FIRST CHILD'),
+            onLongPress: () => print('FIRST CHILD LONG PRESS'),
+          ), */
+          SpeedDialChild(
+            child: Icon(Icons.content_copy),
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            label: 'Nueva Cotizacìon',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () => print('SECOND CHILD'),
+            onLongPress: () => print('SECOND CHILD LONG PRESS'),
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.bookmark_add_rounded),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.green,
+            label: 'Nuevo Pedido',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () => print('THIRD CHILD'),
+            onLongPress: () => print('THIRD CHILD LONG PRESS'),
+          ),
+
+          //add more menu item children here
         ],
-        onTap: (int i) => print('click index=$i'),
       ),
+      //bottomNavigationBar: flutterBar(),
+    );
+  }
+}
+
+class flutterBar extends StatefulWidget {
+  const flutterBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<flutterBar> createState() => _flutterBarState();
+}
+
+class _flutterBarState extends State<flutterBar> {
+  @override
+  Widget build(BuildContext context) {
+    int selectedpage = 0;
+    final _pageNo = [Home()];
+    return ConvexAppBar(
+      backgroundColor: Theme.of(context).primaryColorDark,
+      height: 45,
+      elevation: 6,
+      style: TabStyle.custom,
+      items: [
+        TabItem(icon: Icons.home, title: 'Home'),
+        TabItem(icon: Icons.book, title: 'Pedidos'),
+        TabItem(icon: Icons.copy, title: 'Cotizacion'),
+        TabItem(icon: Icons.paid, title: 'Cobranzas'),
+        // TabItem(icon: Icons.message, title: 'Message'),
+        // TabItem(icon: Icons.people, title: 'Profile'),
+      ],
+      initialActiveIndex: selectedpage,
+      onTap: (int index) {
+        setState(() {
+          selectedpage = index;
+        });
+      },
     );
   }
 }
@@ -235,13 +361,42 @@ class CardDash extends StatelessWidget {
   }
 }
 
-class FilterTab extends StatelessWidget {
+class FilterTab extends StatefulWidget {
   const FilterTab({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<FilterTab> createState() => _FilterTabState();
+}
+
+class _FilterTabState extends State<FilterTab>
+    with SingleTickerProviderStateMixin {
+  late TabController controllerTab;
+  @override
+  initState() {
+    super.initState();
+    controllerTab = TabController(length: 4, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    controllerTab.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    controllerTab.addListener(() {
+      if (!controllerTab.indexIsChanging) {
+        print('controller ${controllerTab.index}');
+        final orderProvider =
+            Provider.of<OrderProvider>(context, listen: false);
+        orderProvider.searchClients({});
+        // Your code goes here.
+        // To get index of current tab use tabController.index
+      }
+    });
     initializeDateFormatting();
     return Container(
       // color: Color.fromARGB(0, 255, 49, 49),
@@ -267,6 +422,7 @@ class FilterTab extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           color: Color.fromARGB(255, 255, 255, 255)),
                       child: TabBar(
+                          controller: controllerTab,
                           indicatorWeight: 0,
                           labelPadding: EdgeInsets.all(0.0),
                           padding: EdgeInsets.all(5.0),
@@ -307,12 +463,15 @@ class FilterTab extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 5),
                       width: double.infinity,
                       height: 35,
-                      child: TabBarView(children: [
-                        // datepickers.DayPicker(),
-                        // datepickers.WeekPicker(),
-                        // datepickers.MesPicker(),
-                        // datepickers.YearPicker()
-                      ]),
+                      child: TabBarView(
+                        children: [
+                          datepickers.DayPicker(),
+                          datepickers.WeekPicker(),
+                          datepickers.MesPicker(),
+                          datepickers.YearPicker()
+                        ],
+                        controller: controllerTab,
+                      ),
                     )
                   ],
                 ),
@@ -322,6 +481,27 @@ class FilterTab extends StatelessWidget {
         ),
         // datepickers.DayPicker()
       ]),
+    );
+  }
+}
+
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Home Page',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
     );
   }
 }
