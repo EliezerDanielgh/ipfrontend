@@ -4,6 +4,8 @@ import 'package:ipfrontend/src/app/services/client_service.dart';
 
 class OrderProvider with ChangeNotifier {
   List<Map<String, dynamic>> clients = [];
+  List<Map<String, dynamic>> orders = [];
+
   bool searchingClients = false;
   String? codeClientSelected;
   Client? client;
@@ -24,6 +26,10 @@ class OrderProvider with ChangeNotifier {
 
   selectedClient(String code) {
     codeClientSelected = code;
+    orders = [
+      {'name': 'Eliezer'},
+      {'name': 'Daniel'}
+    ];
     notifyListeners();
   }
 }

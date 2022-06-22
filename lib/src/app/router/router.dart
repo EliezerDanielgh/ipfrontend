@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ipfrontend/src/app/ui/views/prueba.dart';
+import 'package:ipfrontend/src/app/ui/views/v_view.dart';
 import 'package:ipfrontend/src/app/ui/views/ventas_view.dart';
 import 'package:provider/provider.dart';
 // import 'package:ipfrontend/src/app/models/banner_model.dart';
@@ -56,7 +58,7 @@ class RouterGoRouter {
           path: '/$ventasRoute',
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: const VentasView(),
+            child: const Ventas(),
           ),
         ),
         GoRoute(
@@ -64,7 +66,7 @@ class RouterGoRouter {
           path: rootRoute,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: const HomeView(),
+            child: const Principal(),
           ),
         ),
         GoRoute(
@@ -80,7 +82,7 @@ class RouterGoRouter {
           path: '/$dashBoardRoute',
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: const HomeView(),
+            child: const Principal(), //HomeView()
           ),
         ),
 
@@ -139,7 +141,7 @@ class RouterGoRouter {
         }
         // if the user is logged in but still on the login page, send them to
         // the home page
-        if (loggingIn) return '/$dashBoardRoute';
+        if (loggingIn) return '/'; // se puede modificar con cualquier ruta
 
         // no need to redirect at all
         return null;

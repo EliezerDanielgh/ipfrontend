@@ -111,6 +111,7 @@ class _CardLoginState extends State<CardLogin> {
                             context, loginFormProvider, authProvider),
                         onSaved: (value) => loginFormProvider.username = value!,
                         validator: (value) {
+                          ///var data = value.split("@").toString();
                           if (value == null || value.isEmpty) {
                             return "EL usuario es requerido";
                           }

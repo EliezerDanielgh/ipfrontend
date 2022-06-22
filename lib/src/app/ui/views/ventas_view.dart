@@ -1,5 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:ipfrontend/src/app/components/my_progress_indicator.dart';
 import 'package:ipfrontend/src/app/providers/order_provider.dart';
 import 'package:ipfrontend/src/app/services/client_service.dart';
@@ -103,7 +104,7 @@ class _VentasViewState extends State<VentasView> {
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         border: OutlineInputBorder(),
-                        labelText: 'Search',
+                        labelText: 'Buscar Cliente',
                         suffixIcon: Icon(Icons.search)),
                   ),
                 ),
@@ -123,7 +124,7 @@ class _VentasViewState extends State<VentasView> {
                               scrollDirection: Axis.vertical,
                               itemCount: _foundUsers.length,
                               itemBuilder: (context, index) {
-                                print('Iten $index');
+                                print(_foundUsers[index]["code"]);
                                 return Card(
                                   elevation: 3,
                                   shape: RoundedRectangleBorder(
@@ -140,6 +141,51 @@ class _VentasViewState extends State<VentasView> {
                                     onTap: () {
                                       orderProvider.selectedClient(
                                           _foundUsers[index]["code"]);
+                                      showMaterialModalBottomSheet(
+                                        expand: false,
+                                        context: context,
+                                        backgroundColor:
+                                            Color.fromARGB(61, 122, 239, 147),
+                                        builder: (context) =>
+                                            Consumer<OrderProvider>(builder:
+                                                (context, provider, child) {
+                                          return Container(
+                                            height: 450,
+                                            child: ListView.builder(
+                                              itemCount: provider.orders.length,
+                                              itemBuilder: (context, index) =>
+                                                  Card(
+                                                elevation: 3,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(30)),
+                                                ),
+                                                child: ListTile(
+                                                  dense: false,
+                                                  leading: FlutterLogo(),
+                                                  title: Text(
+                                                    "Flutter Easy Learning\nTutorial #31",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20),
+                                                  ),
+                                                  subtitle: Text(
+                                                    "Instructor: Mustafa Tahir",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                  trailing: Icon(
+                                                      Icons.arrow_forward_ios),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                      );
                                     },
                                     dense: true,
                                     contentPadding: const EdgeInsets.symmetric(
@@ -150,7 +196,8 @@ class _VentasViewState extends State<VentasView> {
                                     leading: CircleAvatar(
                                       radius: 15,
                                       child: Text(
-                                        _foundUsers[index]["code"].toString(),
+                                        _foundUsers[index]["number_orders"]
+                                            .toString(),
                                         style: const TextStyle(fontSize: 12),
                                       ),
                                     ),
@@ -159,7 +206,7 @@ class _VentasViewState extends State<VentasView> {
                                       style: TextStyle(fontSize: 15),
                                     ),
                                     subtitle: Text(
-                                      'test',
+                                      _foundUsers[index]['description'],
                                       style: TextStyle(fontSize: 10),
                                     ),
                                   ),
@@ -180,21 +227,98 @@ class _VentasViewState extends State<VentasView> {
           ),
         ],
       ),
-      bottomNavigationBar: ConvexAppBar(
-        backgroundColor: Theme.of(context).primaryColorDark,
-        height: 45,
-        elevation: 6,
-        style: TabStyle.custom,
-        items: [
-          TabItem(icon: Icons.home, title: 'Home'),
-          TabItem(icon: Icons.book, title: 'Pedidos'),
-          TabItem(icon: Icons.copy, title: 'Cotizacion'),
-          TabItem(icon: Icons.paid, title: 'Cobranzas'),
-          // TabItem(icon: Icons.message, title: 'Message'),
-          // TabItem(icon: Icons.people, title: 'Profile'),
+      floatingActionButton: SpeedDial(
+        marginBottom: 10, //margin bottom
+        icon: Icons.menu, //icon on Floating action button
+        activeIcon: Icons.close, //icon when menu is expanded on button
+        backgroundColor: Colors.deepOrangeAccent, //background color of button
+        foregroundColor: Colors.white, //font color, icon color in button
+        activeBackgroundColor:
+            Colors.deepPurpleAccent, //background color when menu is expanded
+        activeForegroundColor: Colors.white,
+        buttonSize: 56.0, //button size
+        visible: true,
+        closeManually: false,
+        curve: Curves.bounceIn,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        onOpen: () => print('OPENING DIAL'), // action when menu opens
+        onClose: () => print('DIAL CLOSED'), //action when menu closes
+
+        elevation: 8.0, //shadow elevation of button
+        shape: CircleBorder(), //shape of button
+
+        children: [
+          /*          SpeedDialChild(
+            //speed dial child
+            child: Icon(Icons.accessibility),
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            label: 'First Menu Child',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () => print('FIRST CHILD'),
+            onLongPress: () => print('FIRST CHILD LONG PRESS'),
+          ), */
+          SpeedDialChild(
+            child: Icon(Icons.content_copy),
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            label: 'Nueva Cotizacìon',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () => print('SECOND CHILD'),
+            onLongPress: () => print('SECOND CHILD LONG PRESS'),
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.bookmark_add_rounded),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.green,
+            label: 'Nuevo Pedido',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () => print('THIRD CHILD'),
+            onLongPress: () => print('THIRD CHILD LONG PRESS'),
+          ),
+
+          //add more menu item children here
         ],
-        onTap: (int i) => print('click index=$i'),
       ),
+      //bottomNavigationBar: flutterBar(),
+    );
+  }
+}
+
+class flutterBar extends StatefulWidget {
+  const flutterBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<flutterBar> createState() => _flutterBarState();
+}
+
+class _flutterBarState extends State<flutterBar> {
+  @override
+  Widget build(BuildContext context) {
+    int selectedpage = 0;
+    final _pageNo = [Home()];
+    return ConvexAppBar(
+      backgroundColor: Theme.of(context).primaryColorDark,
+      height: 45,
+      elevation: 6,
+      style: TabStyle.custom,
+      items: [
+        TabItem(icon: Icons.home, title: 'Home'),
+        TabItem(icon: Icons.book, title: 'Pedidos'),
+        TabItem(icon: Icons.copy, title: 'Cotizacion'),
+        TabItem(icon: Icons.paid, title: 'Cobranzas'),
+        // TabItem(icon: Icons.message, title: 'Message'),
+        // TabItem(icon: Icons.people, title: 'Profile'),
+      ],
+      initialActiveIndex: selectedpage,
+      onTap: (int index) {
+        setState(() {
+          selectedpage = index;
+        });
+      },
     );
   }
 }
@@ -357,6 +481,27 @@ class _FilterTabState extends State<FilterTab>
         ),
         // datepickers.DayPicker()
       ]),
+    );
+  }
+}
+
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Home Page',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
     );
   }
 }

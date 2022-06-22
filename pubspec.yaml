@@ -46,7 +46,9 @@ dependencies:
   shared_preferences: ^2.0.11
   modal_bottom_sheet: ^2.0.1
   convex_bottom_bar: ^3.0.0
-
+  flutter_speed_dial: ^3.0.5
+  popover: ^0.2.6+3
+ 
 dev_dependencies:
   flutter_test:
     sdk: flutter

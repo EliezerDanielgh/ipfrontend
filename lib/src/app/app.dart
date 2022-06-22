@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       routeInformationParser: _router.routeInformationParser,
       routerDelegate: _router.routerDelegate,
       debugShowCheckedModeBanner: false,
-      title: 'Admin RC871',
+      title: 'Pedidos',
       theme: ThemeData(
         primarySwatch: Colors.green,
         primaryColor: Colors.green,
