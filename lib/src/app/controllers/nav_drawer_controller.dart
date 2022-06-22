@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class NavDrawerProvider with ChangeNotifier {
+class NavDrawerController extends GetxController {
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   String _routeCurrent = '/';
@@ -14,12 +15,12 @@ class NavDrawerProvider with ChangeNotifier {
   setRouteCurrent(routeName) async {
     _routeCurrent = routeName;
     await Future.delayed(const Duration(milliseconds: 200));
-    notifyListeners();
+    update();
   }
 
   setActiveBackButton(bool value) async {
     _activeBackButton = value;
     await Future.delayed(const Duration(milliseconds: 200));
-    notifyListeners();
+    update();
   }
 }

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class OrderProvider with ChangeNotifier {
+class OrderController extends GetxController {
   // List<Map<String, dynamic>> clients = [];
   // bool searchingClients = false;
   // String? codeClientSelected;

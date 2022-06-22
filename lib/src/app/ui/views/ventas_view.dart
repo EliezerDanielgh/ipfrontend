@@ -1,7 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ipfrontend/src/app/components/my_progress_indicator.dart';
-import 'package:ipfrontend/src/app/providers/order_provider.dart';
+import 'package:ipfrontend/src/app/providers/order_controller.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 // import '../inputs/date_pickers.dart' as datepickers;
@@ -18,7 +18,7 @@ class _VentasViewState extends State<VentasView> {
 
   @override
   initState() {
-    final orderProvider = Provider.of<OrderProvider>(context, listen: false);
+    final orderProvider = Provider.of<OrderController>(context, listen: false);
     // orderProvider.searchClients({});
     super.initState();
     // _foundUsers = _allUsers;

@@ -5,7 +5,7 @@ import 'package:ipfrontend/src/app/models/user_model.dart';
 import 'package:ipfrontend/src/app/router/pages.dart';
 import 'package:ipfrontend/src/app/components/nav_drawer/drawer_module.dart';
 import 'package:ipfrontend/src/app/components/nav_drawer/drawer_item.dart';
-import 'package:ipfrontend/src/app/providers/nav_drawer_provider.dart';
+import 'package:ipfrontend/src/app/controllers/nav_drawer_controller.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -49,7 +49,7 @@ class NavigationDrawer extends StatelessWidget {
               leading: const Icon(Icons.logout),
               onTap: () async {
                 controller.logout();
-                NavDrawerProvider.scaffoldKey.currentState?.openEndDrawer();
+                NavDrawerController.scaffoldKey.currentState?.openEndDrawer();
                 // navigateTo(context, loginRoute);
               },
             ),

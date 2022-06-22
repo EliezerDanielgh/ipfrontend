@@ -1,7 +1,9 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ipfrontend/src/app/components/nav_drawer/navigation_drawer.dart';
 import 'package:ipfrontend/src/app/controllers/auth_controller.dart';
+import 'package:ipfrontend/src/app/controllers/nav_drawer_controller.dart';
 import 'package:ipfrontend/src/app/router/pages.dart';
 
 class DashBoardLayout extends StatefulWidget {
@@ -18,6 +20,8 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        key: NavDrawerController.scaffoldKey,
+        drawer: const NavigationDrawer(),
         appBar: AppBar(
           title: const Text('FastShop'),
           actions: [
