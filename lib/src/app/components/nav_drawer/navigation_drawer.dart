@@ -1,66 +1,62 @@
 import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+import 'package:ipfrontend/src/app/controllers/auth_controller.dart';
+import 'package:ipfrontend/src/app/models/user_model.dart';
+import 'package:ipfrontend/src/app/router/pages.dart';
 import 'package:ipfrontend/src/app/components/nav_drawer/drawer_module.dart';
 import 'package:ipfrontend/src/app/components/nav_drawer/drawer_item.dart';
-import 'package:ipfrontend/src/app/models/user_model.dart';
-import 'package:ipfrontend/src/app/providers/auth_provider.dart';
 import 'package:ipfrontend/src/app/providers/nav_drawer_provider.dart';
-import 'package:ipfrontend/src/app/router/route_names.dart';
-import 'package:ipfrontend/src/app/services/navigation_service.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
-    final navDrawerProvider = Provider.of<NavDrawerProvider>(context);
-
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          _getDrawerHeader(user: authProvider.user),
-          ListTile(
-            title: const Text('Home'),
-            leading: const Icon(Icons.home),
-            onTap: () {
-              navDrawerProvider.setActiveBackButton(false);
-              navigateTo(context, dashBoardRoute);
-            },
-          ),
-          const SizedBox(height: 15),
-          DrawerItem(
-            title: 'Administración de Ventas',
-            icon: Icons.system_update_outlined,
-            navigationPath: dashBoardRoute,
-            children: [
-              NavBarItem(
-                isActive: navDrawerProvider.routeCurrent == ventasRoute,
-                title: "Ventas",
-                navigationPath: ventasRoute,
-                icon: Icons.sell_outlined,
-                onPressed: () {
-                  navDrawerProvider.setRouteCurrent(ventasRoute);
-                  navigateTo(context, ventasRoute);
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 15),
-          ListTile(
-            title: const Text('Cerrar Sesión'),
-            leading: const Icon(Icons.logout),
-            onTap: () async {
-              await Provider.of<AuthProvider>(context, listen: false).logout();
-              NavDrawerProvider.scaffoldKey.currentState?.openEndDrawer();
-              // navigateTo(context, loginRoute);
-            },
-          ),
-        ],
-      ),
-    );
+    return GetBuilder<AuthController>(builder: (controller) {
+      return Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            _getDrawerHeader(user: controller.user.value),
+            ListTile(
+              title: const Text('Home'),
+              leading: const Icon(Icons.home),
+              onTap: () {
+                // navDrawerProvider.setActiveBackButton(false);
+                Get.toNamed(Routes.home);
+              },
+            ),
+            const SizedBox(height: 15),
+            DrawerItem(
+              title: 'Administración de Ventas',
+              icon: Icons.system_update_outlined,
+              navigationPath: Routes.sales,
+              children: [
+                NavBarItem(
+                  isActive: Get.currentRoute == Routes.sales,
+                  title: "Ventas",
+                  navigationPath: Routes.sales,
+                  icon: Icons.sell_outlined,
+                  onPressed: () {
+                    Get.toNamed(Routes.sales);
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            ListTile(
+              title: const Text('Cerrar Sesión'),
+              leading: const Icon(Icons.logout),
+              onTap: () async {
+                controller.logout();
+                NavDrawerProvider.scaffoldKey.currentState?.openEndDrawer();
+                // navigateTo(context, loginRoute);
+              },
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   _getDrawerHeader({User? user}) {
@@ -82,10 +78,5 @@ class NavigationDrawer extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  navigateTo(BuildContext context, String nameRoute) {
-    NavigationService.navigateTo(context, nameRoute, null);
-    NavDrawerProvider.scaffoldKey.currentState?.openEndDrawer();
   }
 }

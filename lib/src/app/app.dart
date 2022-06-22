@@ -1,45 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:ipfrontend/src/app/services/notification_service.dart';
-import 'package:ipfrontend/src/app/router/router.dart';
+import 'package:get/get.dart';
+import 'package:ipfrontend/src/app/controllers/auth_controller.dart';
+import 'package:ipfrontend/src/app/router/pages.dart';
+import 'package:ipfrontend/src/app/ui/ui/layout/auth_layout.dart';
+import 'package:ipfrontend/src/app/ui/ui/layout/dashboard_layout.dart';
+import 'package:ipfrontend/src/app/utils/preferences.dart';
+import 'package:ipfrontend/src/app/utils/theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _router = RouterGoRouter.generateRoute(context);
-    return MaterialApp.router(
-      routeInformationParser: _router.routeInformationParser,
-      routerDelegate: _router.routerDelegate,
+    Get.put(AuthController());
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Admin RC871',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        primaryColor: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: Theme.of(context).textTheme.apply(
-              fontFamily: 'Open Sans',
-            ),
-        scrollbarTheme: const ScrollbarThemeData().copyWith(
-          thumbColor: MaterialStateProperty.all(Colors.green),
-        ),
-        inputDecorationTheme: const InputDecorationTheme(
-          fillColor: Colors.green,
-        ),
-      ),
-      scaffoldMessengerKey: NotificationService.messengerKey,
-      /*      builder: (context, child) {
-        AuthProvider auth = Provider.of<AuthProvider>(context);
-        if (auth.loggedInStatus == Status.loggedIn) {
-          return DashBoardLayout(child: child!);
-        }
-
-        if (auth.loggedInStatus == Status.authenticating) {
-          return const SplashLayout();
-        }
-
-        return AuthLayout(child: child!);
-      }, */
+      title: 'Pedidos',
+      theme: appThemeData,
+      initialRoute: Routes.initial,
+      getPages: AppPages.pages,
+      builder: (context, child) {
+        return GetBuilder<AuthController>(builder: (controller) {
+          return (Preferences.getToken() == null ||
+                  Get.currentRoute == Routes.login)
+              ? AuthLayout(child: child!)
+              : Overlay(
+                  initialEntries: [
+                    OverlayEntry(
+                      builder: (context) => DashBoardLayout(child: child!),
+                    )
+                  ],
+                );
+        });
+      },
     );
   }
 }

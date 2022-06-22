@@ -1,197 +1,78 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'package:get/get.dart';
+import 'package:ipfrontend/src/app/utils/snackbar.dart';
 
-import 'package:dio/dio.dart';
+import 'preferences.dart';
 
-import 'package:ipfrontend/src/app/utils/preferences.dart';
+abstract class API<T> extends GetConnect {
+  static const String baseURL = "http://127.0.0.1:8000/api";
 
-class API {
-  static const String baseURL = "http://dev.ipedidos.web.ve/api";
-  static final Dio _dio = Dio();
+  API() {
+    onInit();
+  }
 
-  static void configureDio() {
-    _dio.options.baseUrl = baseURL;
-    _dio.options.headers = {
-      'Authorization': 'Bearer ${Preferences.getToken()}',
-      'X-Dts-Schema': '${Preferences.getSchema()}',
+  @override
+  void onInit() {
+    httpClient.baseUrl = baseURL;
+
+    String? token = Preferences.getToken();
+    String? schema = Preferences.getSchema();
+    // It's will attach 'apikey' property on header from all requests
+
+    Map<String, String> headers = {
       'accept': '*/*',
+      'Authorization': "Bearer $token",
+      'X-Dts-Schema': "$schema"
     };
-    initializedInterceptors();
-  }
 
-  static initializedInterceptors() {
-    _dio.interceptors.add(
-      InterceptorsWrapper(
-        onError: (error, errorHandler) async {
-          print(
-              'onErrorMessage: ${error.response} ${error.response?.statusCode} ${error.requestOptions.path}');
-          if ((error.response?.statusCode == 403 ||
-                  error.response?.statusCode == 401) &&
-              error.requestOptions.path != '/token/' &&
-              error.requestOptions.path != '/security/user/current/') {
-            Response response = await refreshToken();
-            if (response.statusCode == 200) {
-              //get new tokens ...
-              final data = response.data;
-              Preferences.setToken(data['access'], data['refresh']);
-              API.configureDio();
-              //create request with new access token
-              final opts = Options(method: error.requestOptions.method);
-              final cloneReq = await _dio.request(error.requestOptions.path,
-                  options: opts,
-                  data: error.requestOptions.data,
-                  queryParameters: error.requestOptions.queryParameters);
-
-              return errorHandler.resolve(cloneReq);
-            }
-            return errorHandler.next(error);
-          } else {
-            return errorHandler.next(error);
-          }
-        },
-        onRequest: (RequestOptions request, requestHandler) {
-          print("onRequest: ${request.method} ${request.uri}");
-          return requestHandler.next(request);
-        },
-        onResponse: (response, responseHandler) {
-          print('onResponse: ${response.statusCode}');
-          return responseHandler.next(response);
-        },
-      ),
-    );
-  }
-
-  static Future<Response> refreshToken() async {
-    Response response;
-    final refreshToken = Preferences.getRefreshToken();
-    try {
-      response =
-          await _dio.post('/token/refresh/', data: {'refresh': refreshToken});
-    } on DioError catch (e) {
-      throw ErrorAPI.fromJson(e.response.toString());
-    }
-    return response;
-  }
-
-  static Future<Response> _retry(RequestOptions requestOptions) async {
-    final options = Options(
-      method: requestOptions.method,
-      headers: requestOptions.headers,
-    );
-
-    return await _dio.post(requestOptions.path,
-        data: requestOptions.data,
-        queryParameters: requestOptions.queryParameters,
-        options: options);
-  }
-
-  static Future<Response> get(String path) async {
-    Response response;
-    try {
-      response = await _dio.get(path);
-    } on DioError catch (e) {
-      throw ErrorAPI.fromJson(e.response.toString());
-    }
-    return response;
-  }
-
-  static Future<Response> list(
-    String path, {
-    Map<String, dynamic>? params,
-  }) async {
-    Response response;
-    try {
-      response = await _dio.get(path, queryParameters: params);
-    } on DioError catch (e) {
-      throw ErrorAPI.fromJson(e.response.toString());
-    }
-    return response;
-  }
-
-  static Future<Response> add(String path, data) async {
-    Response response;
-    try {
-      response = await _dio.post(path, data: data);
-    } on DioError catch (e) {
-      throw ErrorAPI.fromJson(e.response.toString());
-    }
-
-    return response;
-  }
-
-  static Future<Response> put(String path, data) async {
-    Response response;
-    try {
-      response = await _dio.put(path, data: data);
-    } on DioError catch (e) {
-      throw ErrorAPI.fromJson(e.response.toString());
-    }
-    return response;
-  }
-
-  static Future<Response> patch(String path, data) async {
-    Response response;
-    try {
-      response = await _dio.patch(path, data: data);
-    } on DioError catch (e) {
-      throw ErrorAPI.fromJson(e.response.toString());
-    }
-    return response;
-  }
-
-  static Future<Response> delete(String path, {List<String>? ids}) async {
-    Response response;
-    try {
-      if (ids == null) {
-        response = await _dio.delete(path);
-      } else {
-        response = await _dio.delete(path, data: {'ids': ids});
-      }
-    } on DioError catch (e) {
-      throw ErrorAPI.fromJson(e.response.toString());
-    }
-    return response;
-  }
-
-  static Future<Response> uploadFile(String path, Uint8List bytes) async {
-    final formData = FormData.fromMap({
-      'photo': MultipartFile.fromBytes(bytes),
+    httpClient.addRequestModifier<dynamic>((request) {
+      request.headers.addAll(headers);
+      return request;
     });
-    Response response;
-    try {
-      response = await _dio.patch(path, data: formData);
-    } on DioError catch (e) {
-      throw ErrorAPI.fromJson(e.response.toString());
+
+    // httpClient.addResponseModifier<dynamic>((request, response) {
+    //   print(response.bodyString);
+    // });
+
+    httpClient.addAuthenticator<dynamic>((request) async {
+      // Set the header
+      request.headers.addAll(headers);
+      return request;
+    });
+
+    super.onInit();
+  }
+
+  @override
+  GetSocket socket(String url, {Duration ping = const Duration(seconds: 5)}) {
+    return super.socket(url, ping: ping);
+  }
+
+  /// for setting up GraphQl with getConnect
+  @override
+  Future<GraphQLResponse<T>> mutation<T>(String mutation,
+      {String? url,
+      Map<String, dynamic>? variables,
+      Map<String, String>? headers}) {
+    return super
+        .mutation(mutation, url: url, variables: variables, headers: headers);
+  }
+
+  dynamic errorHandler(Response response) {
+    switch (response.statusCode) {
+      case 500:
+        throw "Server Error pls retry later";
+      case 403:
+        throw 'Error occurred pls check internet and retry.';
+      case 401:
+        CustomSnackBar.error(message: response.body["detail"]);
+        break;
+      case 404:
+        CustomSnackBar.error(
+          message: 'Error occurred pls check internet and retry',
+        );
+        break;
+      default:
+        throw 'Error occurred retry';
     }
-    return response;
   }
-}
-
-class ErrorAPI {
-  dynamic detail;
-  List<String>? error;
-
-  ErrorAPI({
-    this.detail,
-    this.error,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'detail': detail,
-      'error': error,
-    };
-  }
-
-  factory ErrorAPI.fromMap(Map<String, dynamic> map) {
-    return ErrorAPI(
-      detail: map['detail'],
-      error: map['error'] != null ? List<String>.from(map['error']) : null,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ErrorAPI.fromJson(String source) =>
-      ErrorAPI.fromMap(json.decode(source));
 }

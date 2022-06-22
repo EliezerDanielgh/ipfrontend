@@ -2,11 +2,9 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ipfrontend/src/app/components/my_progress_indicator.dart';
 import 'package:ipfrontend/src/app/providers/order_provider.dart';
-import 'package:ipfrontend/src/app/services/client_service.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
-import '../inputs/date_pickers.dart' as datepickers;
+// import '../inputs/date_pickers.dart' as datepickers;
 
 class VentasView extends StatefulWidget {
   const VentasView({Key? key}) : super(key: key);
@@ -21,7 +19,7 @@ class _VentasViewState extends State<VentasView> {
   @override
   initState() {
     final orderProvider = Provider.of<OrderProvider>(context, listen: false);
-    orderProvider.searchClients({});
+    // orderProvider.searchClients({});
     super.initState();
     // _foundUsers = _allUsers;
   }
@@ -110,71 +108,71 @@ class _VentasViewState extends State<VentasView> {
                 const SizedBox(
                   height: 8,
                 ),
-                Consumer<OrderProvider>(
-                    builder: (context, orderProvider, child) {
-                  if (orderProvider.searchingClients == false) {
-                    _foundUsers = orderProvider.clients;
-                    return Container(
-                      height: 250,
-                      child: _foundUsers.isNotEmpty
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.all(5),
-                              scrollDirection: Axis.vertical,
-                              itemCount: _foundUsers.length,
-                              itemBuilder: (context, index) {
-                                print('Iten $index');
-                                return Card(
-                                  elevation: 3,
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      color: Color.fromARGB(179, 24, 226, 58),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  key: ValueKey(_foundUsers[index]["code"]),
-                                  color:
-                                      const Color.fromARGB(255, 254, 253, 252),
-                                  child: ListTile(
-                                    onTap: () {
-                                      orderProvider.selectedClient(
-                                          _foundUsers[index]["code"]);
-                                    },
-                                    dense: true,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 5,
-                                      vertical: 0,
-                                    ),
-                                    style: ListTileStyle.drawer,
-                                    leading: CircleAvatar(
-                                      radius: 15,
-                                      child: Text(
-                                        _foundUsers[index]["code"].toString(),
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ),
-                                    title: Text(
-                                      _foundUsers[index]['business_name'],
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    subtitle: Text(
-                                      'test',
-                                      style: TextStyle(fontSize: 10),
-                                    ),
-                                  ),
-                                );
-                              },
-                            )
-                          : const Text(
-                              'No results found',
-                              style: TextStyle(fontSize: 24),
-                            ),
-                    );
-                  } else {
-                    return const MyProgressIndicator();
-                  }
-                })
+                // Consumer<OrderProvider>(
+                //     builder: (context, orderProvider, child) {
+                //   if (orderProvider.searchingClients == false) {
+                //     _foundUsers = orderProvider.clients;
+                //     return Container(
+                //       height: 250,
+                //       child: _foundUsers.isNotEmpty
+                //           ? ListView.builder(
+                //               shrinkWrap: true,
+                //               padding: EdgeInsets.all(5),
+                //               scrollDirection: Axis.vertical,
+                //               itemCount: _foundUsers.length,
+                //               itemBuilder: (context, index) {
+                //                 print('Iten $index');
+                //                 return Card(
+                //                   elevation: 3,
+                //                   shape: RoundedRectangleBorder(
+                //                     side: const BorderSide(
+                //                       color: Color.fromARGB(179, 24, 226, 58),
+                //                       width: 1,
+                //                     ),
+                //                     borderRadius: BorderRadius.circular(10),
+                //                   ),
+                //                   key: ValueKey(_foundUsers[index]["code"]),
+                //                   color:
+                //                       const Color.fromARGB(255, 254, 253, 252),
+                //                   child: ListTile(
+                //                     onTap: () {
+                //                       orderProvider.selectedClient(
+                //                           _foundUsers[index]["code"]);
+                //                     },
+                //                     dense: true,
+                //                     contentPadding: const EdgeInsets.symmetric(
+                //                       horizontal: 5,
+                //                       vertical: 0,
+                //                     ),
+                //                     style: ListTileStyle.drawer,
+                //                     leading: CircleAvatar(
+                //                       radius: 15,
+                //                       child: Text(
+                //                         _foundUsers[index]["code"].toString(),
+                //                         style: const TextStyle(fontSize: 12),
+                //                       ),
+                //                     ),
+                //                     title: Text(
+                //                       _foundUsers[index]['business_name'],
+                //                       style: TextStyle(fontSize: 15),
+                //                     ),
+                //                     subtitle: Text(
+                //                       'test',
+                //                       style: TextStyle(fontSize: 10),
+                //                     ),
+                //                   ),
+                //                 );
+                //               },
+                //             )
+                //           : const Text(
+                //               'No results found',
+                //               style: TextStyle(fontSize: 24),
+                //             ),
+                //     );
+                //   } else {
+                //     return const MyProgressIndicator();
+                //   }
+                // })
               ],
             ),
           ),
@@ -309,11 +307,11 @@ class FilterTab extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 5),
                       width: double.infinity,
                       height: 35,
-                      child: const TabBarView(children: [
-                        datepickers.DayPicker(),
-                        datepickers.WeekPicker(),
-                        datepickers.MesPicker(),
-                        datepickers.YearPicker()
+                      child: TabBarView(children: [
+                        // datepickers.DayPicker(),
+                        // datepickers.WeekPicker(),
+                        // datepickers.MesPicker(),
+                        // datepickers.YearPicker()
                       ]),
                     )
                   ],
