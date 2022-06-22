@@ -8,7 +8,7 @@ class ClientProvider extends API {
     [{"string": {}}]
     */
     final response = await get('$url/', query: {"not_paginator": true});
-    return List<Map<String, dynamic>>.from(response.body);
+    return List<Map<String, dynamic>>.from(response.body).toList();
   }
 
   updateClient(String code, Map<String, dynamic> data) async {

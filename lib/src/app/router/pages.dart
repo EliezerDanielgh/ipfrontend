@@ -3,7 +3,6 @@ import 'package:ipfrontend/src/app/middlewares/auth_guard.dart';
 import 'package:ipfrontend/src/app/ui/pages/home_page.dart';
 import 'package:ipfrontend/src/app/ui/pages/login_page.dart';
 import 'package:ipfrontend/src/app/ui/pages/splash_page.dart';
-import 'package:ipfrontend/src/app/ui/pages/v_page.dart';
 import 'package:ipfrontend/src/app/ui/pages/ventas_page.dart';
 part './routes.dart';
 
@@ -18,7 +17,9 @@ abstract class AppPages {
       children: [
         GetPage(
           name: Routes.home,
-          page: () => const MyHomePage(title: "Home"),
+          page: () {
+            return const MyHomePage(title: "Home");
+          },
           transition: Transition.zoom,
         ),
         GetPage(

@@ -3,6 +3,9 @@ import 'package:ipfrontend/src/app/models/client_model.dart';
 import 'package:ipfrontend/src/app/providers/client_provider.dart';
 
 class OrderController extends GetxController {
+  OrderController() {
+    searchClients({"not_paginator": true});
+  }
   List<Map<String, dynamic>> clients = [];
   List<Map<String, dynamic>> orders = [];
   ClientProvider clientProvider = ClientProvider();

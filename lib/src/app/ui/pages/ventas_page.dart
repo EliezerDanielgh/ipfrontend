@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ipfrontend/src/app/controllers/order_controller.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:ipfrontend/src/app/providers/client_provider.dart';
 import 'package:ipfrontend/src/app/ui/widgets/progress_indicators/custom_progress_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../inputs/date_pickers.dart' as datepickers;
@@ -16,10 +15,10 @@ class VentasPage extends StatefulWidget {
 
 class _VentasPageState extends State<VentasPage> {
   List<Map<String, dynamic>> _allUsers = [];
-
   @override
   initState() {
     // _allUsers = await Get.find<ClientProvider>().getClients();
+
     super.initState();
   }
 

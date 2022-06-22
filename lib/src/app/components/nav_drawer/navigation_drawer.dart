@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ipfrontend/src/app/controllers/auth_controller.dart';
+import 'package:ipfrontend/src/app/controllers/covex_controller.dart';
 import 'package:ipfrontend/src/app/models/user_model.dart';
 import 'package:ipfrontend/src/app/router/pages.dart';
 import 'package:ipfrontend/src/app/components/nav_drawer/drawer_module.dart';

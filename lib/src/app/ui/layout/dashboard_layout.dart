@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ipfrontend/src/app/components/nav_drawer/navigation_drawer.dart';
 import 'package:ipfrontend/src/app/controllers/auth_controller.dart';
+import 'package:ipfrontend/src/app/controllers/covex_controller.dart';
 import 'package:ipfrontend/src/app/controllers/nav_drawer_controller.dart';
 import 'package:ipfrontend/src/app/router/pages.dart';
+import 'package:ipfrontend/src/app/ui/shared/widgets/botton_usuario.dart';
 
 class DashBoardLayout extends StatefulWidget {
   const DashBoardLayout({Key? key, required this.child}) : super(key: key);
@@ -23,7 +25,7 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
         key: NavDrawerController.scaffoldKey,
         drawer: const NavigationDrawer(),
         appBar: AppBar(
-          title: const Text('FastShop'),
+          title: const BottonUsuario(),
           actions: [
             PopupMenuButton<int>(
               itemBuilder: (context) {
@@ -56,32 +58,35 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
         ),
         backgroundColor: Colors.white,
         body: widget.child,
-        bottomNavigationBar: ConvexAppBar(
-          backgroundColor: Theme.of(context).primaryColorDark,
-          height: 45,
-          elevation: 6,
-          items: const [
-            TabItem(icon: Icons.home, title: 'Home'),
-            TabItem(icon: Icons.book, title: 'Ventas'),
-            TabItem(icon: Icons.copy, title: 'Cuentas X Cobrar'),
-            TabItem(icon: Icons.paid, title: 'Estadisticas'),
-          ],
-          initialActiveIndex: 0, //optional, default as 0
-          onTap: (int i) {
-            switch (i) {
-              case 0:
-                Get.toNamed(Routes.home);
-                break;
-              case 1:
-                Get.toNamed(Routes.inventory);
-                break;
-              case 2:
-                Get.toNamed(Routes.sales);
-                break;
-              default:
-            }
-          },
-        ),
+        bottomNavigationBar:
+            GetBuilder<ConvexController>(builder: (controller) {
+          return ConvexAppBar(
+            backgroundColor: Theme.of(context).primaryColorDark,
+            height: 45,
+            elevation: 6,
+            items: const [
+              TabItem(icon: Icons.home, title: 'Home'),
+              TabItem(icon: Icons.book, title: 'Ventas'),
+              TabItem(icon: Icons.copy, title: 'Cuentas X Cobrar'),
+              TabItem(icon: Icons.paid, title: 'Estadisticas'),
+            ],
+            initialActiveIndex: controller.index, //optional, default as 0
+            onTap: (int i) {
+              switch (i) {
+                case 0:
+                  Get.toNamed(Routes.home);
+                  break;
+                case 1:
+                  Get.toNamed(Routes.sales);
+                  break;
+                case 2:
+                  Get.toNamed(Routes.inventory);
+                  break;
+                default:
+              }
+            },
+          );
+        }),
       ),
     );
   }
