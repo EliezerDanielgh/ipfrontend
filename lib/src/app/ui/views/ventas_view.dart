@@ -1,9 +1,8 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:get/get.dart';
 import 'package:ipfrontend/src/app/components/my_progress_indicator.dart';
-import 'package:ipfrontend/src/app/providers/order_provider.dart';
-import 'package:ipfrontend/src/app/services/client_service.dart';
+import 'package:ipfrontend/src/app/controllers/order_controller.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
@@ -22,23 +21,7 @@ class _VentasViewState extends State<VentasView> {
   @override
   initState() {
     super.initState();
-    final orderProvider = Provider.of<OrderProvider>(context, listen: false);
-    orderProvider.searchClients({});
-    // _foundUsers = _allUsers;
   }
-
-  // final List<Map<String, dynamic>> _allUsers = [
-  //   {"id": 1, "name": "Andy", "age": 29},
-  //   {"id": 2, "name": "Aragon", "age": 40},
-  //   {"id": 3, "name": "Bob", "age": 5},
-  //   {"id": 4, "name": "Barbara", "age": 35},
-  //   {"id": 5, "name": "Candy", "age": 21},
-  //   {"id": 6, "name": "Colin", "age": 55},
-  //   {"id": 7, "name": "Audra", "age": 30},
-  //   {"id": 8, "name": "Banana", "age": 14},
-  //   {"id": 9, "name": "Caversky", "age": 100},
-  //   {"id": 10, "name": "Becky", "age": 32},
-  // ];
 
   List<Map<String, dynamic>> _foundUsers = [];
 
@@ -111,10 +94,9 @@ class _VentasViewState extends State<VentasView> {
                 const SizedBox(
                   height: 8,
                 ),
-                Consumer<OrderProvider>(
-                    builder: (context, orderProvider, child) {
-                  if (orderProvider.searchingClients == false) {
-                    _foundUsers = orderProvider.clients;
+                GetBuilder<OrderController>(builder: (controller) {
+                  if (controller.searchingClients == false) {
+                    _foundUsers = controller.clients;
                     return Container(
                       height: 250,
                       child: _foundUsers.isNotEmpty
@@ -139,52 +121,47 @@ class _VentasViewState extends State<VentasView> {
                                       const Color.fromARGB(255, 254, 253, 252),
                                   child: ListTile(
                                     onTap: () {
-                                      orderProvider.selectedClient(
+                                      controller.selectedClient(
                                           _foundUsers[index]["code"]);
                                       showMaterialModalBottomSheet(
                                         expand: false,
                                         context: context,
                                         backgroundColor:
                                             Color.fromARGB(61, 122, 239, 147),
-                                        builder: (context) =>
-                                            Consumer<OrderProvider>(builder:
-                                                (context, provider, child) {
-                                          return Container(
-                                            height: 450,
-                                            child: ListView.builder(
-                                              itemCount: provider.orders.length,
-                                              itemBuilder: (context, index) =>
-                                                  Card(
-                                                elevation: 3,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(30)),
+                                        builder: (context) => Container(
+                                          height: 450,
+                                          child: ListView.builder(
+                                            itemCount: controller.orders.length,
+                                            itemBuilder: (context, index) =>
+                                                Card(
+                                              elevation: 3,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30)),
+                                              ),
+                                              child: ListTile(
+                                                dense: false,
+                                                leading: FlutterLogo(),
+                                                title: Text(
+                                                  "Flutter Easy Learning\nTutorial #31",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20),
                                                 ),
-                                                child: ListTile(
-                                                  dense: false,
-                                                  leading: FlutterLogo(),
-                                                  title: Text(
-                                                    "Flutter Easy Learning\nTutorial #31",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20),
-                                                  ),
-                                                  subtitle: Text(
-                                                    "Instructor: Mustafa Tahir",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 16),
-                                                  ),
-                                                  trailing: Icon(
-                                                      Icons.arrow_forward_ios),
+                                                subtitle: Text(
+                                                  "Instructor: Mustafa Tahir",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16),
                                                 ),
+                                                trailing: Icon(
+                                                    Icons.arrow_forward_ios),
                                               ),
                                             ),
-                                          );
-                                        }),
+                                          ),
+                                        ),
                                       );
                                     },
                                     dense: true,
@@ -227,61 +204,6 @@ class _VentasViewState extends State<VentasView> {
           ),
         ],
       ),
-      floatingActionButton: SpeedDial(
-        marginBottom: 10, //margin bottom
-        icon: Icons.menu, //icon on Floating action button
-        activeIcon: Icons.close, //icon when menu is expanded on button
-        backgroundColor: Colors.deepOrangeAccent, //background color of button
-        foregroundColor: Colors.white, //font color, icon color in button
-        activeBackgroundColor:
-            Colors.deepPurpleAccent, //background color when menu is expanded
-        activeForegroundColor: Colors.white,
-        buttonSize: 56.0, //button size
-        visible: true,
-        closeManually: false,
-        curve: Curves.bounceIn,
-        overlayColor: Colors.black,
-        overlayOpacity: 0.5,
-        onOpen: () => print('OPENING DIAL'), // action when menu opens
-        onClose: () => print('DIAL CLOSED'), //action when menu closes
-
-        elevation: 8.0, //shadow elevation of button
-        shape: CircleBorder(), //shape of button
-
-        children: [
-          /*          SpeedDialChild(
-            //speed dial child
-            child: Icon(Icons.accessibility),
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
-            label: 'First Menu Child',
-            labelStyle: TextStyle(fontSize: 18.0),
-            onTap: () => print('FIRST CHILD'),
-            onLongPress: () => print('FIRST CHILD LONG PRESS'),
-          ), */
-          SpeedDialChild(
-            child: Icon(Icons.content_copy),
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            label: 'Nueva Cotizacìon',
-            labelStyle: TextStyle(fontSize: 18.0),
-            onTap: () => print('SECOND CHILD'),
-            onLongPress: () => print('SECOND CHILD LONG PRESS'),
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.bookmark_add_rounded),
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.green,
-            label: 'Nuevo Pedido',
-            labelStyle: TextStyle(fontSize: 18.0),
-            onTap: () => print('THIRD CHILD'),
-            onLongPress: () => print('THIRD CHILD LONG PRESS'),
-          ),
-
-          //add more menu item children here
-        ],
-      ),
-      //bottomNavigationBar: flutterBar(),
     );
   }
 }
@@ -390,9 +312,6 @@ class _FilterTabState extends State<FilterTab>
     controllerTab.addListener(() {
       if (!controllerTab.indexIsChanging) {
         print('controller ${controllerTab.index}');
-        final orderProvider =
-            Provider.of<OrderProvider>(context, listen: false);
-        orderProvider.searchClients({});
         // Your code goes here.
         // To get index of current tab use tabController.index
       }

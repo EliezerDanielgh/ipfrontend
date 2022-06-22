@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:ipfrontend/src/app/ui/views/v_view.dart';
-import 'package:ipfrontend/src/app/ui/views/ventas_view.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:popover/popover.dart';
 
 class Principal extends StatefulWidget {
   const Principal({Key? key}) : super(key: key);

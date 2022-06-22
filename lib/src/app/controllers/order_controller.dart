@@ -1,27 +1,34 @@
 import 'package:get/get.dart';
+import 'package:ipfrontend/src/app/models/client_model.dart';
 
 class OrderController extends GetxController {
-  // List<Map<String, dynamic>> clients = [];
-  // bool searchingClients = false;
-  // String? codeClientSelected;
-  // Client? client;
+  List<Map<String, dynamic>> clients = [];
+  List<Map<String, dynamic>> orders = [];
 
-  // searchClients(Map<String, dynamic> params) async {
-  //   searchingClients = true;
-  //   notifyListeners();
-  //   clients = await ClientService.getClients();
-  //   searchingClients = false;
-  //   notifyListeners();
-  // }
+  bool searchingClients = false;
+  String? codeClientSelected;
+  Client? client;
 
-  // updateClient(String code, Map<String, dynamic> data) async {
-  //   final resp = await ClientService.updateClient(code, data);
-  //   client = Client.fromMap(resp);
-  //   return true;
-  // }
+  searchClients(Map<String, dynamic> params) async {
+    searchingClients = true;
+    update();
+    clients = await ClientProvider.getClients();
+    searchingClients = false;
+    update();
+  }
 
-  // selectedClient(String code) {
-  //   codeClientSelected = code;
-  //   notifyListeners();
-  // }
+  updateClient(String code, Map<String, dynamic> data) async {
+    final resp = await ClientProvider.updateClient(code, data);
+    client = Client.fromMap(resp);
+    return true;
+  }
+
+  selectedClient(String code) {
+    codeClientSelected = code;
+    orders = [
+      {'name': 'Eliezer'},
+      {'name': 'Daniel'}
+    ];
+    update();
+  }
 }
