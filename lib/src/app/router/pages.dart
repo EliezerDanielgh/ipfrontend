@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:ipfrontend/src/app/middlewares/auth_guard.dart';
-import 'package:ipfrontend/src/app/ui/ui/pages/home_page.dart';
-import 'package:ipfrontend/src/app/ui/ui/pages/login_page.dart';
-import 'package:ipfrontend/src/app/ui/ui/widgets/splash_view.dart';
+import 'package:ipfrontend/src/app/ui/pages/home_page.dart';
+import 'package:ipfrontend/src/app/ui/pages/login_page.dart';
+import 'package:ipfrontend/src/app/ui/pages/splash_page.dart';
+import 'package:ipfrontend/src/app/ui/pages/v_page.dart';
+import 'package:ipfrontend/src/app/ui/pages/ventas_page.dart';
 part './routes.dart';
 
 abstract class AppPages {
@@ -12,7 +14,7 @@ abstract class AppPages {
       middlewares: [
         AuthGuard(),
       ],
-      page: () => const SplashView(),
+      page: () => const SplashPage(),
       children: [
         GetPage(
           name: Routes.home,
@@ -26,7 +28,7 @@ abstract class AppPages {
         ),
         GetPage(
           name: Routes.sales,
-          page: () => const MyHomePage(title: "Ventas"),
+          page: () => const VentasPage(),
           transition: Transition.zoom,
         ),
       ],

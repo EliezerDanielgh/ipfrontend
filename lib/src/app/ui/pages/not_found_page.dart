@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class NotFoundView extends StatelessWidget {
+class NotFoundPage extends StatelessWidget {
   String? error;
 
-  NotFoundView({
+  NotFoundPage({
     Key? key,
     this.error,
   }) : super(key: key);

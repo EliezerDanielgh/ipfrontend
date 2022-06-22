@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:ipfrontend/src/app/ui/views/v_view.dart';
+import 'package:ipfrontend/src/app/ui/pages/v_page.dart';
 
 class Principal extends StatefulWidget {
   const Principal({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class Principal extends StatefulWidget {
 
 class _PrincipalState extends State<Principal> {
   int selectedpage = 0;
-  final _pageNo = [Home(), Ventas(), CartPage(), ProfilePage()];
+  final _pageNo = [Home(), VPage(), CartPage(), ProfilePage()];
 
   @override
   Widget build(BuildContext context) {

@@ -57,10 +57,14 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
         backgroundColor: Colors.white,
         body: widget.child,
         bottomNavigationBar: ConvexAppBar(
+          backgroundColor: Theme.of(context).primaryColorDark,
+          height: 45,
+          elevation: 6,
           items: const [
-            TabItem(icon: Icons.home, title: 'Inicio'),
-            TabItem(icon: Icons.map, title: 'Inventario'),
-            TabItem(icon: Icons.add, title: 'Ventas'),
+            TabItem(icon: Icons.home, title: 'Home'),
+            TabItem(icon: Icons.book, title: 'Ventas'),
+            TabItem(icon: Icons.copy, title: 'Cuentas X Cobrar'),
+            TabItem(icon: Icons.paid, title: 'Estadisticas'),
           ],
           initialActiveIndex: 0, //optional, default as 0
           onTap: (int i) {

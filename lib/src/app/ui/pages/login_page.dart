@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ipfrontend/src/app/controllers/auth_controller.dart';
-import 'package:ipfrontend/src/app/ui/ui/widgets/buttons/custom_button_primary.dart';
-import 'package:ipfrontend/src/app/ui/ui/widgets/progress_indicators/custom_progress_indicator.dart';
-import 'package:ipfrontend/src/app/ui/ui/widgets/textformfields/textform_field_widget.dart';
+import 'package:ipfrontend/src/app/ui/widgets/buttons/custom_button_primary.dart';
+import 'package:ipfrontend/src/app/ui/widgets/progress_indicators/custom_progress_indicator.dart';
+import 'package:ipfrontend/src/app/ui/widgets/textformfields/textform_field_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

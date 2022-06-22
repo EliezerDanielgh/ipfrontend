@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
 
+// ignore: must_be_immutable
 class NavBarItem extends StatefulWidget {
   final String title;
   final String navigationPath;

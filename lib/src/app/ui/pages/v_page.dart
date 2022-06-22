@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Ventas extends StatefulWidget {
-  const Ventas({Key? key}) : super(key: key);
+class VPage extends StatefulWidget {
+  const VPage({Key? key}) : super(key: key);
 
   @override
-  State<Ventas> createState() => _VentasState();
+  State<VPage> createState() => _VPageState();
 }
 
-class _VentasState extends State<Ventas> {
+class _VPageState extends State<VPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
