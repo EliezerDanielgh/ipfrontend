@@ -88,7 +88,7 @@ class _ConvexBarState extends State<ConvexBar> {
           TabItem(icon: Icons.copy, title: 'Cuentas X Cobrar'),
           TabItem(icon: Icons.paid, title: 'Estadisticas'),
         ],
-        initialActiveIndex: 0, //optional, default as 0
+        initialActiveIndex: controller.index, //optional, default as 0
         onTap: (int i) {
           switch (i) {
             case 0:
