@@ -19,10 +19,11 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
   @override
   Widget build(BuildContext context) {
     final authController = Get.find<AuthController>();
+    NavDrawerController navDrawerController = Get.find<NavDrawerController>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        key: NavDrawerController.scaffoldKey,
+        key: navDrawerController.scaffoldKey,
         drawer: const NavigationDrawer(),
         appBar: AppBar(
           title: const BottonUsuario(),
@@ -81,6 +82,9 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
                   break;
                 case 2:
                   Get.toNamed(Routes.inventory);
+                  break;
+                case 3:
+                  Get.toNamed(Routes.statistics);
                   break;
                 default:
               }

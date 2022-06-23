@@ -15,6 +15,7 @@ class VentasPage extends StatefulWidget {
 
 class _VentasPageState extends State<VentasPage> {
   List<Map<String, dynamic>> _allUsers = [];
+  final OrderController orderController = Get.put(OrderController());
   @override
   initState() {
     // _allUsers = await Get.find<ClientProvider>().getClients();
@@ -92,107 +93,120 @@ class _VentasPageState extends State<VentasPage> {
               const SizedBox(
                 height: 8,
               ),
-              GetBuilder<OrderController>(builder: (controller) {
-                if (controller.searchingClients == false) {
-                  _foundUsers = controller.clients;
-                  return Container(
-                    height: 250,
-                    child: _foundUsers.isNotEmpty
-                        ? ListView.builder(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.all(5),
-                            scrollDirection: Axis.vertical,
-                            itemCount: _foundUsers.length,
-                            itemBuilder: (context, index) {
-                              print(_foundUsers[index]["code"]);
-                              return Card(
-                                elevation: 3,
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    color: Color.fromARGB(179, 24, 226, 58),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                key: ValueKey(_foundUsers[index]["code"]),
-                                color: const Color.fromARGB(255, 254, 253, 252),
-                                child: ListTile(
-                                  onTap: () {
-                                    controller.selectedClient(
-                                        _foundUsers[index]["code"]);
-                                    showMaterialModalBottomSheet(
-                                      expand: false,
-                                      context: context,
-                                      backgroundColor:
-                                          Color.fromARGB(61, 122, 239, 147),
-                                      builder: (context) => Container(
-                                        height: 450,
-                                        child: ListView.builder(
-                                          itemCount: controller.orders.length,
-                                          itemBuilder: (context, index) => Card(
-                                            elevation: 3,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30)),
-                                            ),
-                                            child: ListTile(
-                                              dense: false,
-                                              leading: FlutterLogo(),
-                                              title: Text(
-                                                "Flutter Easy Learning\nTutorial #31",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20),
+              GetBuilder<OrderController>(
+                  init: orderController,
+                  initState: (controller) {
+                    controller.controller
+                        ?.searchClients({"not_paginator": true});
+                  },
+                  builder: (controller) {
+                    if (controller.searchingClients == false) {
+                      _foundUsers = controller.clients;
+                      return Container(
+                        height: 250,
+                        child: _foundUsers.isNotEmpty
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.all(5),
+                                scrollDirection: Axis.vertical,
+                                itemCount: _foundUsers.length,
+                                itemBuilder: (context, index) {
+                                  print(_foundUsers[index]["code"]);
+                                  return Card(
+                                    elevation: 3,
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                        color: Color.fromARGB(179, 24, 226, 58),
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    key: ValueKey(_foundUsers[index]["code"]),
+                                    color: const Color.fromARGB(
+                                        255, 254, 253, 252),
+                                    child: ListTile(
+                                      onTap: () {
+                                        controller.selectedClient(
+                                            _foundUsers[index]["code"]);
+                                        showMaterialModalBottomSheet(
+                                          expand: false,
+                                          context: context,
+                                          backgroundColor:
+                                              Color.fromARGB(61, 122, 239, 147),
+                                          builder: (context) => Container(
+                                            height: 450,
+                                            child: ListView.builder(
+                                              itemCount:
+                                                  controller.orders.length,
+                                              itemBuilder: (context, index) =>
+                                                  Card(
+                                                elevation: 3,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(30)),
+                                                ),
+                                                child: ListTile(
+                                                  dense: false,
+                                                  leading: FlutterLogo(),
+                                                  title: Text(
+                                                    "Flutter Easy Learning\nTutorial #31",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20),
+                                                  ),
+                                                  subtitle: Text(
+                                                    "Instructor: Mustafa Tahir",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                  trailing: Icon(
+                                                      Icons.arrow_forward_ios),
+                                                ),
                                               ),
-                                              subtitle: Text(
-                                                "Instructor: Mustafa Tahir",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              ),
-                                              trailing:
-                                                  Icon(Icons.arrow_forward_ios),
                                             ),
                                           ),
+                                        );
+                                      },
+                                      dense: true,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                        horizontal: 5,
+                                        vertical: 0,
+                                      ),
+                                      style: ListTileStyle.drawer,
+                                      leading: CircleAvatar(
+                                        radius: 15,
+                                        child: Text(
+                                          _foundUsers[index]["number_orders"]
+                                              .toString(),
+                                          style: const TextStyle(fontSize: 12),
                                         ),
                                       ),
-                                    );
-                                  },
-                                  dense: true,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 5,
-                                    vertical: 0,
-                                  ),
-                                  style: ListTileStyle.drawer,
-                                  leading: CircleAvatar(
-                                    radius: 15,
-                                    child: Text(
-                                      _foundUsers[index]["number_orders"]
-                                          .toString(),
-                                      style: const TextStyle(fontSize: 12),
+                                      title: Text(
+                                        _foundUsers[index]['business_name'],
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      subtitle: Text(
+                                        _foundUsers[index]['description'],
+                                        style: TextStyle(fontSize: 10),
+                                      ),
                                     ),
-                                  ),
-                                  title: Text(
-                                    _foundUsers[index]['business_name'],
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                  subtitle: Text(
-                                    _foundUsers[index]['description'],
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                ),
-                              );
-                            },
-                          )
-                        : const Text(
-                            'No results found',
-                            style: TextStyle(fontSize: 24),
-                          ),
-                  );
-                } else {
-                  return const CustomProgressIndicator();
-                }
-              })
+                                  );
+                                },
+                              )
+                            : const Text(
+                                'No results found',
+                                style: TextStyle(fontSize: 24),
+                              ),
+                      );
+                    } else {
+                      return const CustomProgressIndicator();
+                    }
+                  })
             ],
           ),
         ),

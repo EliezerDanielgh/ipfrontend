@@ -16,7 +16,7 @@ class OrderController extends GetxController {
   searchClients(Map<String, dynamic> params) async {
     searchingClients = true;
     update();
-    clients = await clientProvider.getClients();
+    clients = await clientProvider.getClients(params);
     searchingClients = false;
     update();
   }

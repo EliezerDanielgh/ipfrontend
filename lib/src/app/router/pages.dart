@@ -32,6 +32,11 @@ abstract class AppPages {
           page: () => const VentasPage(),
           transition: Transition.zoom,
         ),
+        GetPage(
+          name: Routes.statistics,
+          page: () => const MyHomePage(title: "Estadisticas"),
+          transition: Transition.zoom,
+        ),
       ],
     ),
     GetPage(

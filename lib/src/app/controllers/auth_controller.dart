@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ipfrontend/src/app/models/user_model.dart';
 import 'package:ipfrontend/src/app/providers/auth_provider.dart';
+import 'package:ipfrontend/src/app/utils/apidio.dart';
 import 'package:ipfrontend/src/app/utils/preferences.dart';
 import 'package:ipfrontend/src/app/utils/snackbar.dart';
 
@@ -47,13 +48,13 @@ class AuthController extends GetxController {
         var splitUsername = username.split("@");
         if (splitUsername.length > 1) {
           await Preferences.setSchema(splitUsername[1]);
-          loginProvider.onInit();
+          APIDio.configureDio();
           formLoginKey.currentState!.save();
           final resp = await loginProvider.login(
               {"username": splitUsername[0], "password": password.value});
           if (resp != null) {
             await Preferences.setToken(resp['token'], resp['refresh']);
-            loginProvider.onInit();
+            APIDio.configureDio();
             user.value = await loginProvider.currentUser();
             update();
             Get.offAllNamed(Routes.home);
