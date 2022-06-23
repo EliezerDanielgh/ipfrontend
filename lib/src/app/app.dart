@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(AuthController());
     Get.put(ConvexController());
-    Get.lazyPut(() => NavDrawerController());
+    Get.put(NavDrawerController());
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,

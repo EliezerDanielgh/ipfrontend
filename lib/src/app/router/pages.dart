@@ -23,8 +23,8 @@ abstract class AppPages {
           transition: Transition.zoom,
         ),
         GetPage(
-          name: Routes.inventory,
-          page: () => const MyHomePage(title: "Inventario"),
+          name: Routes.accountsReceivable,
+          page: () => const MyHomePage(title: "Cuentas por Cobrar"),
           transition: Transition.zoom,
         ),
         GetPage(

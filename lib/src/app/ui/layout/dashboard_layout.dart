@@ -59,39 +59,54 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
         ),
         backgroundColor: Colors.white,
         body: widget.child,
-        bottomNavigationBar:
-            GetBuilder<ConvexController>(builder: (controller) {
-          return ConvexAppBar(
-            backgroundColor: Theme.of(context).primaryColorDark,
-            height: 45,
-            elevation: 6,
-            items: const [
-              TabItem(icon: Icons.home, title: 'Home'),
-              TabItem(icon: Icons.book, title: 'Ventas'),
-              TabItem(icon: Icons.copy, title: 'Cuentas X Cobrar'),
-              TabItem(icon: Icons.paid, title: 'Estadisticas'),
-            ],
-            initialActiveIndex: controller.index, //optional, default as 0
-            onTap: (int i) {
-              switch (i) {
-                case 0:
-                  Get.toNamed(Routes.home);
-                  break;
-                case 1:
-                  Get.toNamed(Routes.sales);
-                  break;
-                case 2:
-                  Get.toNamed(Routes.inventory);
-                  break;
-                case 3:
-                  Get.toNamed(Routes.statistics);
-                  break;
-                default:
-              }
-            },
-          );
-        }),
+        bottomNavigationBar: const ConvexBar(),
       ),
     );
+  }
+}
+
+class ConvexBar extends StatefulWidget {
+  const ConvexBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<ConvexBar> createState() => _ConvexBarState();
+}
+
+class _ConvexBarState extends State<ConvexBar> {
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<ConvexController>(builder: (controller) {
+      return ConvexAppBar(
+        backgroundColor: Theme.of(context).primaryColorDark,
+        height: 45,
+        elevation: 6,
+        items: const [
+          TabItem(icon: Icons.home, title: 'Home'),
+          TabItem(icon: Icons.book, title: 'Ventas'),
+          TabItem(icon: Icons.copy, title: 'Cuentas X Cobrar'),
+          TabItem(icon: Icons.paid, title: 'Estadisticas'),
+        ],
+        initialActiveIndex: 0, //optional, default as 0
+        onTap: (int i) {
+          switch (i) {
+            case 0:
+              Get.toNamed(Routes.home);
+              break;
+            case 1:
+              Get.toNamed(Routes.sales);
+              break;
+            case 2:
+              Get.toNamed(Routes.accountsReceivable);
+              break;
+            case 3:
+              Get.toNamed(Routes.statistics);
+              break;
+            default:
+          }
+        },
+      );
+    });
   }
 }

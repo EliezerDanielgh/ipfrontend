@@ -6,7 +6,8 @@ import 'package:ipfrontend/src/app/utils/preferences.dart';
 import 'package:ipfrontend/src/app/utils/snackbar.dart';
 
 abstract class APIDio {
-  static const String baseURL = "http://127.0.0.1:8000/api";
+  static const String baseURLDev = "http://127.0.0.1:8000/api";
+  static const String baseURL = "http://dev.ipedidos.web.ve/api";
   static final Dio _dio = Dio();
 
   static void configureDio() {
