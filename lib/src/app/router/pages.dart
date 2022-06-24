@@ -17,9 +17,7 @@ abstract class AppPages {
       children: [
         GetPage(
           name: Routes.home,
-          page: () {
-            return const MyHomePage(title: "Home");
-          },
+          page: () => const MyHomePage(title: "Home"),
           transition: Transition.zoom,
         ),
         GetPage(
