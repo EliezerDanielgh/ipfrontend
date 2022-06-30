@@ -760,8 +760,9 @@ class ParentCard extends StatelessWidget {
                     headerBackgroundColor: Colors.black,
                     headerBackgroundColorOpened: Colors.red,
                     header: Text('Productos', style: _headerStyle),
-                    content:
-                        listviewitems() /* Text(_loremIpsum, style: _contentStyle) */,
+                    content: listviewitems(
+                      controller: controller,
+                    ) /* Text(_loremIpsum, style: _contentStyle) */,
                     contentHorizontalPadding: 20,
                     contentBorderWidth: 1,
                     // onOpenSection: () => print('onOpenSection ...'),
