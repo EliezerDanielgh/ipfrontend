@@ -47,6 +47,7 @@ class NavigationDrawer extends StatelessWidget {
                   onPressed: () {
                     navDrawerController.scaffoldKey.currentState
                         ?.openEndDrawer();
+                    convexController.index = 1;
                     Get.toNamed(Routes.sales);
                   },
                 ),

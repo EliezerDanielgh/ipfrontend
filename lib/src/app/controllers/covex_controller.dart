@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConvexController extends GetxController {
-  int _index = 0;
+  final Rx<int> _index = 0.obs;
 
-  int get index => _index;
+  TabController? tabController;
+
+  int get index => _index.value;
 
   set index(int index) {
-    _index = index;
-    update();
+    tabController?.index = index;
+    _index.value = index;
   }
 }

@@ -23,90 +23,100 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        key: navDrawerController.scaffoldKey,
-        drawer: const NavigationDrawer(),
-        appBar: AppBar(
-          title: const BottonUsuario(),
-          actions: [
-            PopupMenuButton<int>(
-              itemBuilder: (context) {
-                return [
-                  // popupmenu item 1
-                  PopupMenuItem(
-                    value: 1,
-                    onTap: () {
-                      authController.logout();
-                    },
-                    // row has two child icon and text.
-                    child: Row(
-                      children: const [
-                        Icon(Icons.logout),
-                        SizedBox(
-                          // sized box with width 10
-                          width: 10,
-                        ),
-                        Text("Cerrar sesión")
-                      ],
+          key: navDrawerController.scaffoldKey,
+          drawer: const NavigationDrawer(),
+          appBar: AppBar(
+            title: const BottonUsuario(),
+            actions: [
+              PopupMenuButton<int>(
+                itemBuilder: (context) {
+                  return [
+                    // popupmenu item 1
+                    PopupMenuItem(
+                      value: 1,
+                      onTap: () {
+                        authController.logout();
+                      },
+                      // row has two child icon and text.
+                      child: Row(
+                        children: const [
+                          Icon(Icons.logout),
+                          SizedBox(
+                            // sized box with width 10
+                            width: 10,
+                          ),
+                          Text("Cerrar sesión")
+                        ],
+                      ),
                     ),
-                  ),
-                ];
-              },
-              offset: const Offset(0, 60),
-              color: Colors.grey,
-              elevation: 2,
-            )
-          ],
-        ),
-        backgroundColor: Colors.white,
-        body: widget.child,
-        bottomNavigationBar: const ConvexBar(),
-      ),
+                  ];
+                },
+                offset: const Offset(0, 60),
+                color: Colors.grey,
+                elevation: 2,
+              )
+            ],
+          ),
+          backgroundColor: Colors.white,
+          body: widget.child,
+          bottomNavigationBar: ConvexButtonBar()),
     );
   }
 }
 
-class ConvexBar extends StatefulWidget {
-  const ConvexBar({
-    Key? key,
-  }) : super(key: key);
-
+// ignore: must_be_immutable
+class ConvexButtonBar extends StatefulWidget {
+  ConvexButtonBar({Key? key}) : super(key: key);
+  ConvexController convexController = Get.find<ConvexController>();
   @override
-  State<ConvexBar> createState() => _ConvexBarState();
+  State<ConvexButtonBar> createState() => _ConvexButtonBarState();
 }
 
-class _ConvexBarState extends State<ConvexBar> {
+class _ConvexButtonBarState extends State<ConvexButtonBar>
+    with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    widget.convexController.tabController =
+        TabController(length: 4, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.convexController.tabController?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ConvexController>(builder: (controller) {
-      return ConvexAppBar(
-        backgroundColor: Theme.of(context).primaryColorDark,
-        height: 45,
-        elevation: 6,
-        items: const [
-          TabItem(icon: Icons.home, title: 'Home'),
-          TabItem(icon: Icons.book, title: 'Ventas'),
-          TabItem(icon: Icons.copy, title: 'Cuentas X Cobrar'),
-          TabItem(icon: Icons.paid, title: 'Estadisticas'),
-        ],
-        initialActiveIndex: 0, //optional, default as 0
-        onTap: (int i) {
-          switch (i) {
-            case 0:
-              Get.toNamed(Routes.home);
-              break;
-            case 1:
-              Get.toNamed(Routes.sales);
-              break;
-            case 2:
-              Get.toNamed(Routes.accountsReceivable);
-              break;
-            case 3:
-              Get.toNamed(Routes.statistics);
-              break;
-            default:
-          }
-        },
-      );
-    });
+    return ConvexAppBar(
+      backgroundColor: Theme.of(context).primaryColorDark,
+      height: 45,
+      elevation: 6,
+      items: const [
+        TabItem(icon: Icons.home, title: 'Home'),
+        TabItem(icon: Icons.book, title: 'Ventas'),
+        TabItem(icon: Icons.copy, title: 'Cuentas X Cobrar'),
+        TabItem(icon: Icons.paid, title: 'Estadisticas'),
+      ],
+      controller: widget.convexController.tabController,
+      onTap: (int i) {
+        switch (i) {
+          case 0:
+            Get.toNamed(Routes.home);
+            break;
+          case 1:
+            Get.toNamed(Routes.sales);
+            break;
+          case 2:
+            Get.toNamed(Routes.accountsReceivable);
+            break;
+          case 3:
+            Get.toNamed(Routes.statistics);
+            break;
+          default:
+        }
+      },
+    );
   }
 }

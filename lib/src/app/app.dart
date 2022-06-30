@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ipfrontend/src/app/controllers/auth_controller.dart';
-import 'package:ipfrontend/src/app/controllers/covex_controller.dart';
-import 'package:ipfrontend/src/app/controllers/nav_drawer_controller.dart';
 import 'package:ipfrontend/src/app/router/pages.dart';
 import 'package:ipfrontend/src/app/ui/layout/auth_layout.dart';
 import 'package:ipfrontend/src/app/ui/layout/dashboard_layout.dart';
@@ -14,10 +12,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AuthController());
-    Get.put(ConvexController());
-    Get.put(NavDrawerController());
-
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Pedidos',
