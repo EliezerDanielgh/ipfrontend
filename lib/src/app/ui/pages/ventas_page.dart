@@ -26,6 +26,7 @@ class _VentasPageState extends State<VentasPage> {
   }
 
   List<Map<String, dynamic>> _foundUsers = [];
+  List<Map<String, dynamic>> _dataOrders = [];
 
   @override
   void _runFilter(String enteredKeyword) {
@@ -114,7 +115,7 @@ class _VentasPageState extends State<VentasPage> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: _foundUsers.length,
                                   itemBuilder: (context, index) {
-                                    print(_foundUsers[index]["code"]);
+                                    //print(_foundUsers[index]["code"]);
                                     return Card(
                                       elevation: 3,
                                       shape: RoundedRectangleBorder(
@@ -130,8 +131,8 @@ class _VentasPageState extends State<VentasPage> {
                                           255, 254, 253, 252),
                                       child: ListTile(
                                         onTap: () {
-                                          controller.selectedClient(
-                                              _foundUsers[index]["code"]);
+                                          controller.searchOrders(
+                                              {"not_paginator": true});
                                           showMaterialModalBottomSheet(
                                             expand: false,
                                             context: context,
@@ -193,7 +194,8 @@ class ListOrder extends StatelessWidget {
   ListOrder({Key? key, required this.controller}) : super(key: key);
   OrderController controller;
   late String name = controller.clients[0]['business_name'];
-
+  final _headerStyle = const TextStyle(
+      color: Color(0xffffffff), fontSize: 15, fontWeight: FontWeight.bold);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -210,14 +212,203 @@ class ListOrder extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        Expanded(
+          /*       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
           height: 350,
-          width: double.maxFinite,
+          width: double.maxFinite ,*/
           child: ListView.builder(
               itemCount: controller.orders.length,
-              itemBuilder: (context, index) => ParentCard(
-                    controller: controller,
+              itemBuilder: (context, index) => Card(
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                // flex: 1,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "N. Pedido",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      // ignore: unnecessary_string_interpolations
+                                      controller.orders[index]['number']
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        // fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Monto",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      controller.orders[index]['balance'],
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        // fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Estatus",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      controller.orders[index]
+                                          ['status_display'],
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        // fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                // flex: 1,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Vendedor",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      controller.orders[index]['seller'],
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        // fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Fecha",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      controller.orders[index]['date_of_issue'],
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        // fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Completed Date",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "--",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        // fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          /*  SizedBox(
+              height: 5,
+            ), */
+                          /*       Text(
+              "Line Items",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ), */
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            height: 280,
+                            child: Accordion(
+                              maxOpenSections: 2,
+                              headerPadding: const EdgeInsets.symmetric(
+                                  vertical: 7, horizontal: 15),
+                              sectionOpeningHapticFeedback:
+                                  SectionHapticFeedback.heavy,
+                              sectionClosingHapticFeedback:
+                                  SectionHapticFeedback.light,
+                              children: [
+                                AccordionSection(
+                                  isOpen: false,
+                                  leftIcon: const Icon(
+                                      Icons.production_quantity_limits,
+                                      color: Colors.white),
+                                  headerBackgroundColor: Colors.black,
+                                  headerBackgroundColorOpened: Colors.red,
+                                  header:
+                                      Text('Productos', style: _headerStyle),
+                                  content: listviewitems(
+                                    controller: controller,
+                                  ) /* Text(_loremIpsum, style: _contentStyle) */,
+                                  contentHorizontalPadding: 20,
+                                  contentBorderWidth: 1,
+                                  // onOpenSection: () => print('onOpenSection ...'),
+                                  // onCloseSection: () => print('onCloseSection ...'),
+                                ),
+                              ],
+                            ) /* listviewitems() */,
+                          ),
+                        ],
+                      ),
+                    ),
                   )),
         ),
       ],
@@ -540,9 +731,9 @@ class ParentCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            /*  SizedBox(
               height: 5,
-            ),
+            ), */
             /*       Text(
               "Line Items",
               style: TextStyle(
@@ -569,7 +760,8 @@ class ParentCard extends StatelessWidget {
                     headerBackgroundColor: Colors.black,
                     headerBackgroundColorOpened: Colors.red,
                     header: Text('Productos', style: _headerStyle),
-                    content: Text(_loremIpsum, style: _contentStyle),
+                    content:
+                        listviewitems() /* Text(_loremIpsum, style: _contentStyle) */,
                     contentHorizontalPadding: 20,
                     contentBorderWidth: 1,
                     // onOpenSection: () => print('onOpenSection ...'),
@@ -586,14 +778,14 @@ class ParentCard extends StatelessWidget {
 }
 
 class listviewitems extends StatelessWidget {
-  const listviewitems({
-    Key? key,
-  }) : super(key: key);
+  listviewitems({Key? key, required this.controller}) : super(key: key);
+  OrderController controller;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 10,
+      shrinkWrap: true,
+      itemCount: 2,
       itemBuilder: (context, index) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

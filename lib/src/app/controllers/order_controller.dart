@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:ipfrontend/src/app/models/client_model.dart';
 import 'package:ipfrontend/src/app/providers/client_provider.dart';
+import 'package:ipfrontend/src/app/providers/order_provider.dart';
 
 class OrderController extends GetxController {
   OrderController() {
@@ -9,8 +10,10 @@ class OrderController extends GetxController {
   List<Map<String, dynamic>> clients = [];
   List<Map<String, dynamic>> orders = [];
   ClientProvider clientProvider = ClientProvider();
+  OrderProvider orderProvider = OrderProvider();
   bool searchingClients = false;
-  String? codeClientSelected;
+  bool searchingOrders = false;
+
   Client? client;
 
   searchClients(Map<String, dynamic> params) async {
@@ -27,12 +30,12 @@ class OrderController extends GetxController {
     return true;
   }
 
-  selectedClient(String code) {
-    codeClientSelected = code;
-    orders = [
-      {'name': 'Eliezer'},
-      {'name': 'Daniel'}
-    ];
+  searchOrders(Map<String, dynamic> params) async {
+    searchingOrders = true;
+    update();
+    orders = await orderProvider.getOrders(params);
+    print('object $orders');
+    searchingOrders = false;
     update();
   }
 }

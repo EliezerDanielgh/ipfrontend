@@ -4,6 +4,7 @@ import 'package:ipfrontend/src/app/ui/pages/home_page.dart';
 import 'package:ipfrontend/src/app/ui/pages/login_page.dart';
 import 'package:ipfrontend/src/app/ui/pages/splash_page.dart';
 import 'package:ipfrontend/src/app/ui/pages/ventas_page.dart';
+import 'package:ipfrontend/src/app/ui/pages/orders/module_view.dart';
 part './routes.dart';
 
 abstract class AppPages {
@@ -24,7 +25,7 @@ abstract class AppPages {
         ),
         GetPage(
           name: Routes.accountsReceivable,
-          page: () => const MyHomePage(title: "Cuentas por Cobrar"),
+          page: () => const moduleOrders(),
           transition: Transition.zoom,
         ),
         GetPage(
