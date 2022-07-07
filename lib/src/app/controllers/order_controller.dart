@@ -5,7 +5,7 @@ import 'package:ipfrontend/src/app/providers/order_provider.dart';
 
 class OrderController extends GetxController {
   OrderController() {
-    searchClients({"not_paginator": true});
+    searchOrders({"not_paginator": true});
   }
   List<Map<String, dynamic>> clients = [];
   List<Map<String, dynamic>> orders = [];
@@ -35,6 +35,9 @@ class OrderController extends GetxController {
     update();
     orders = await orderProvider.getOrders(params);
     print('object $orders');
+    //print('Howdy, ${orders['items']}!');
+    //print('Howdy, ${orders['items']}');
+
     searchingOrders = false;
     update();
   }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ipfrontend/src/app/controllers/order_controller.dart';
@@ -101,13 +103,13 @@ class _VentasPageState extends State<VentasPage> {
                     init: orderController,
                     initState: (controller) {
                       controller.controller
-                          ?.searchClients({"not_paginator": true});
+                          ?.searchOrders({"not_paginator": true});
                     },
                     builder: (controller) {
-                      if (controller.searchingClients == false) {
-                        _foundUsers = controller.clients;
+                      if (controller.searchingOrders == false) {
+                        _foundUsers = controller.orders;
                         return Container(
-                          height: 100,
+                          height: 200,
                           child: _foundUsers.isNotEmpty
                               ? ListView.builder(
                                   shrinkWrap: true,
@@ -116,58 +118,8 @@ class _VentasPageState extends State<VentasPage> {
                                   itemCount: _foundUsers.length,
                                   itemBuilder: (context, index) {
                                     //print(_foundUsers[index]["code"]);
-                                    return Card(
-                                      elevation: 3,
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          color:
-                                              Color.fromARGB(179, 24, 226, 58),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      key: ValueKey(_foundUsers[index]["code"]),
-                                      color: const Color.fromARGB(
-                                          255, 254, 253, 252),
-                                      child: ListTile(
-                                        onTap: () {
-                                          controller.searchOrders(
-                                              {"not_paginator": true});
-                                          showMaterialModalBottomSheet(
-                                            expand: false,
-                                            context: context,
-                                            backgroundColor: Color.fromARGB(
-                                                61, 122, 239, 147),
-                                            builder: (context) => ListOrder(
-                                                controller: controller),
-                                          );
-                                        },
-                                        dense: true,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                          horizontal: 5,
-                                          vertical: 0,
-                                        ),
-                                        style: ListTileStyle.drawer,
-                                        leading: CircleAvatar(
-                                          radius: 15,
-                                          child: Text(
-                                            _foundUsers[index]["number_orders"]
-                                                .toString(),
-                                            style:
-                                                const TextStyle(fontSize: 12),
-                                          ),
-                                        ),
-                                        title: Text(
-                                          _foundUsers[index]['business_name'],
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        subtitle: Text(
-                                          _foundUsers[index]['description'],
-                                          style: TextStyle(fontSize: 10),
-                                        ),
-                                      ),
-                                    );
+                                    return CardOrders(
+                                        order: _foundUsers[index]);
                                   },
                                 )
                               : const Text(
@@ -186,6 +138,185 @@ class _VentasPageState extends State<VentasPage> {
       ),
       floatingActionButton:
           FloatingActionButton(onPressed: (() {}), child: Icon(Icons.add)),
+    );
+  }
+}
+
+class CardOrders extends StatelessWidget {
+  const CardOrders({
+    Key? key,
+    required this.order,
+  }) : super(key: key);
+
+  final dynamic order;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(
+          color: Color.fromARGB(179, 24, 226, 58),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      key: ValueKey(order["id"]),
+      color: const Color.fromARGB(255, 254, 253, 252),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            /*           CircleAvatar(
+              radius: 15,
+              child: Text(
+                _foundUsers[index]["client"]
+                    .toString(),
+                style: const TextStyle(
+                    fontSize: 12),
+              ),
+            ), */
+            Expanded(
+              flex: 5,
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: Text(
+                        order['name'],
+                        style: TextStyle(fontSize: 15),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10, bottom: 0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.lock_clock_outlined,
+                                color: Colors.grey,
+                                size: 16,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 10, right: 10),
+                                child: Text(order['name']),
+                              ),
+                              Icon(
+                                Icons.lock_clock_outlined,
+                                color: Colors.grey,
+                                size: 16,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(order['name']),
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.lock_clock_outlined,
+                                color: Colors.grey,
+                                size: 16,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 10, right: 10),
+                                child: Text(
+                                  order['name'],
+                                ),
+                              ),
+                              Icon(
+                                Icons.lock_clock_outlined,
+                                color: Colors.grey,
+                                size: 16,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(order['name']),
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                  splashRadius: 20,
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.edit,
+                                    size: 20,
+                                  )),
+                              IconButton(
+                                  splashRadius: 20,
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.delete,
+                                    size: 20,
+                                  ))
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      /* ListTile(
+        onTap: () {
+          /*   controller.searchOrders(
+              {"not_paginator": true}); */
+          /* showMaterialModalBottomSheet(
+            expand: false,
+            context: context,
+            backgroundColor: Color.fromARGB(
+                61, 122, 239, 147),
+            builder: (context) => ListOrder(
+                controller: controller),
+          ); */
+        },
+        dense: true,
+        contentPadding:
+            const EdgeInsets.symmetric(
+          horizontal: 5,
+          vertical: 0,
+        ),
+        style: ListTileStyle.drawer,
+        leading: CircleAvatar(
+          radius: 15,
+          child: Text(
+            _foundUsers[index]["client"]
+                .toString(),
+            style:
+                const TextStyle(fontSize: 12),
+          ),
+        ),
+        title: Text(
+          _foundUsers[index]['name'],
+          style: TextStyle(fontSize: 15),
+        ),
+        subtitle: Text(
+          _foundUsers[index]['description'],
+          style: TextStyle(fontSize: 10),
+        ),
+      ), */
     );
   }
 }
@@ -217,199 +348,162 @@ class ListOrder extends StatelessWidget {
           height: 350,
           width: double.maxFinite ,*/
           child: ListView.builder(
-              itemCount: controller.orders.length,
-              itemBuilder: (context, index) => Card(
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+            itemCount: controller.orders.length,
+            itemBuilder: (context, index) => Card(
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          // flex: 1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Expanded(
-                                // flex: 1,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "N. Pedido",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "N. Pedido ",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    SizedBox(
-                                      height: 5,
+                                  ),
+                                  Text(
+                                    controller.orders[index]['number']
+                                        .toString(),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
                                     ),
-                                    Text(
-                                      // ignore: unnecessary_string_interpolations
-                                      controller.orders[index]['number']
-                                          .toString(),
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        // fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "Monto",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      controller.orders[index]['balance'],
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        // fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "Estatus",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      controller.orders[index]
-                                          ['status_display'],
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        // fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
-                              Expanded(
-                                // flex: 1,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Vendedor",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Monto ",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    SizedBox(
-                                      height: 5,
+                                  ),
+                                  Text(
+                                    controller.orders[index]['balance'],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
                                     ),
-                                    Text(
-                                      controller.orders[index]['seller'],
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        // fontWeight: FontWeight.bold,
-                                      ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Estatus ",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    SizedBox(
-                                      height: 5,
+                                  ),
+                                  Text(
+                                    controller.orders[index]['status_display'],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
                                     ),
-                                    Text(
-                                      "Fecha",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          // flex: 1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: [
+                                  Text(
+                                    "Vendedor ",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    SizedBox(
-                                      height: 5,
+                                  ),
+                                  Text(
+                                    controller.orders[index]['seller'],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
                                     ),
-                                    Text(
-                                      controller.orders[index]['date_of_issue'],
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        // fontWeight: FontWeight.bold,
-                                      ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Fecha ",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    SizedBox(
-                                      height: 5,
+                                  ),
+                                  Text(
+                                    controller.orders[index]['tasag10'],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
                                     ),
-                                    Text(
-                                      "Completed Date",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "--",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        // fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Completed Date " + "--",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
                           ),
-                          /*  SizedBox(
-              height: 5,
-            ), */
-                          /*       Text(
-              "Line Items",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ), */
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            height: 280,
-                            child: Accordion(
-                              maxOpenSections: 2,
-                              headerPadding: const EdgeInsets.symmetric(
-                                  vertical: 7, horizontal: 15),
-                              sectionOpeningHapticFeedback:
-                                  SectionHapticFeedback.heavy,
-                              sectionClosingHapticFeedback:
-                                  SectionHapticFeedback.light,
-                              children: [
-                                AccordionSection(
-                                  isOpen: false,
-                                  leftIcon: const Icon(
-                                      Icons.production_quantity_limits,
-                                      color: Colors.white),
-                                  headerBackgroundColor: Colors.black,
-                                  headerBackgroundColorOpened: Colors.red,
-                                  header:
-                                      Text('Productos', style: _headerStyle),
-                                  content: listviewitems(
-                                    controller: controller,
-                                  ) /* Text(_loremIpsum, style: _contentStyle) */,
-                                  contentHorizontalPadding: 20,
-                                  contentBorderWidth: 1,
-                                  // onOpenSection: () => print('onOpenSection ...'),
-                                  // onCloseSection: () => print('onCloseSection ...'),
-                                ),
-                              ],
-                            ) /* listviewitems() */,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  )),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                        IconButton(onPressed: () {}, icon: Icon(Icons.delete))
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -762,6 +856,7 @@ class ParentCard extends StatelessWidget {
                     header: Text('Productos', style: _headerStyle),
                     content: listviewitems(
                       controller: controller,
+                      items: [],
                     ) /* Text(_loremIpsum, style: _contentStyle) */,
                     contentHorizontalPadding: 20,
                     contentBorderWidth: 1,
@@ -779,19 +874,23 @@ class ParentCard extends StatelessWidget {
 }
 
 class listviewitems extends StatelessWidget {
-  listviewitems({Key? key, required this.controller}) : super(key: key);
+  listviewitems({Key? key, required this.controller, required this.items})
+      : super(key: key);
   OrderController controller;
+  List<dynamic> items;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: 2,
+      itemCount: items.length,
       itemBuilder: (context, index) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text((index + 1).toString() + ". Item Title",
+            Text(
+                (items[index]['product_display']['code']).toString() +
+                    (items[index]['product_display']['description']).toString(),
                 style: TextStyle(
                   fontSize: 16,
                 )),
